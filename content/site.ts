@@ -8,13 +8,13 @@ export const siteConfig = {
     backgroundMusic:"/background_music/PALAGI (Wedding Version) - TJ Monterde  OFFICIAL AUDIO.mp3"
   },
   googleAPI:{
-    messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSf8ZspBwer8NLyzpfB5a8ToJ_mCFeHj2YX07J2-SQcW4Qv65w/formResponse",   //done
-    message: "https://script.google.com/macros/s/AKfycbwHy2NRkT8PIY71PVJM2CH_ew7bic976VKPRQBmpRip1T5nZE5yECkkcp9ptVJl_RGBfw/exec",  //done
-    guestList: "https://script.google.com/macros/s/AKfycbwXXz3nuD2MzTZRSk3eG3b4gDoa77CfZjm2iSiGnRwpYW_cOVwdvihjgJWd_Xqi_MrIJA/exec",  //done
-    guestRequest: "https://script.google.com/macros/s/AKfycbyE0LIuMBWwuNjc6N8Owm1GutscACJurTwBK209zVP_BaNumusjBxjxTw8FtiZY6AdErg/exec",   //done
-    entourage: "https://script.google.com/macros/s/AKfycbyNqocSscG2w3uB4Uscx3eICqhuzqd0SCMPyZikDxCGgAbM2CSkbMvoI4uwnmDkqHw2yA/exec",  //done
-    sponsors: "https://script.google.com/macros/s/AKfycbwCiB7IbqI6iHU1QqgAXLFHE6SGdUnycPxV_t-_4_ZDJwf3LYnlL940g8PI83OmkorNvg/exec",   //done
-    weddingDetails: "https://script.google.com/macros/s/AKfycbyz8OEA4fNrbOY4B18MSe0nTe-GyELNJv96O998I5OKNBD3HtQsZ88VIAnLLci5bBZnGQ/exec",   //done
+    messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSfXvyM4HX_WzeqhNBsVItLE3vxaX-jxfyQcUzlmIYemI6seEA/formResponse",   //done
+    message: "https://script.google.com/macros/s/AKfycbyhXfGvSAOcfVjsGTCFSERVHIBT8YSAF6UWufUSZVFIsO-DmRCfP4cu8BGFC9_kGd2Z/exec",  //done
+    guestList: "https://script.google.com/macros/s/AKfycbweU0eMuEW3ZNX9BJq0DTNE316uD9aOJXTwi7Jqo-fyRbcJ4oXmC_bl4xn-9yysI50/exec",  //done
+    guestRequest: "https://script.google.com/macros/s/AKfycbyE0LIuMBWwuNjc6N8Owm1GutscACJurTwBK209zVP_BaNumusjBxjxTw8FtiZY6AdErg/exec",   
+    entourage: "https://script.google.com/macros/s/AKfycbyNqocSscG2w3uB4Uscx3eICqhuzqd0SCMPyZikDxCGgAbM2CSkbMvoI4uwnmDkqHw2yA/exec",  
+    sponsors: "https://script.google.com/macros/s/AKfycbwCiB7IbqI6iHU1QqgAXLFHE6SGdUnycPxV_t-_4_ZDJwf3LYnlL940g8PI83OmkorNvg/exec",   
+    weddingDetails: "https://script.google.com/macros/s/AKfycbyz8OEA4fNrbOY4B18MSe0nTe-GyELNJv96O998I5OKNBD3HtQsZ88VIAnLLci5bBZnGQ/exec",   
 ////google share 
     googleShare: "https://docs.google.com/spreadsheets/d/1OXyjq_SnyzPwIT1tRKo4Sjf_00sexatbmFA9DdJ-bR4/edit?usp=sharing", 
   },
