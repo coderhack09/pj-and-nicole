@@ -1,8 +1,7 @@
-import fs from "fs/promises"
-import path from "path"
 import MasonryGallery from "@/components/masonry-gallery"
 import { siteConfig } from "@/content/site"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import { fetchGalleryImages } from "@/lib/fetch-gallery-images"
 import { Cinzel, Cormorant_Garamond } from "next/font/google"
 
 const cinzel = Cinzel({
@@ -18,39 +17,10 @@ const cormorant = Cormorant_Garamond({
 // Palette lives in globals.css → @theme inline → --color-motif-*
 const GALLERY_DECO_FILTER = ""
 
-// Generate on each request so newly added images in public/ appear without a rebuild
-export const dynamic = "force-dynamic"
-
-async function getImagesFromFolder(folder: string): Promise<string[]> {
-  const abs = path.join(process.cwd(), "public", folder)
-  try {
-    const entries = await fs.readdir(abs, { withFileTypes: true })
-    return entries
-      .filter((e) => e.isFile())
-      .map((e) => `/${folder}/${e.name}`)
-      .filter((p) => p.match(/\.(jpe?g|png|webp|gif)$/i))
-  } catch {
-    return []
-  }
-}
-
-async function getGalleryImages() {
-  // Try dedicated gallery folder first, fall back to desktop-background
-  const galleryImages = await getImagesFromFolder("gallery")
-  const sources = galleryImages.length > 0
-    ? galleryImages
-    : await getImagesFromFolder("desktop-background")
-
-  return sources.sort((a, b) => {
-    // Extract numeric part from filename for proper numerical sorting
-    const numA = parseInt(a.match(/\((\d+)\)/)?.[1] || "0", 10)
-    const numB = parseInt(b.match(/\((\d+)\)/)?.[1] || "0", 10)
-    return numA - numB
-  })
-}
+export const revalidate = 3600
 
 export default async function GalleryPage() {
-  const allImages = await getGalleryImages()
+  const allImages = await fetchGalleryImages()
   const images = allImages.map((src) => ({
     src,
     category: "gallery" as const,
@@ -163,13 +133,13 @@ export default async function GalleryPage() {
         {images.length === 0 ? (
           <div className={`${cormorant.className} text-center text-motif-medium`}>
             <p className="font-light">
-              No images found. Add files to{" "}
+              No images found. Upload photos to your Cloudinary{" "}
               <code className="px-2 py-1 rounded border bg-motif-accent/10 border-motif-accent/40 text-motif-deep">
-                public/gallery
+                gallery
               </code>
-              {" "}or{" "}
+              {" "}folder or add paths to{" "}
               <code className="px-2 py-1 rounded border bg-motif-accent/10 border-motif-accent/40 text-motif-deep">
-                public/desktop-background
+                content/gallery-images.ts
               </code>
               .
             </p>

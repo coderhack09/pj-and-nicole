@@ -30,6 +30,24 @@ const nextConfig = {
       'lucide-react',
       '@radix-ui/react-dialog',
       '@radix-ui/react-select',
+      'three',
+      '@react-three/fiber',
+    ],
+  },
+  outputFileTracingExcludes: {
+    '/gallery': [
+      './public/gallery/**/*',
+      './public/desktop-background/**/*',
+      './public/mobile-background/**/*',
+      './public/**/*.{jpg,jpeg,png,webp,gif,mp3,mp4,mov}',
+    ],
+    '/*': [
+      './public/gallery/**/*',
+      './public/desktop-background/**/*',
+      './public/mobile-background/**/*',
+      './public/LoveStory/**/*',
+      './public/Details/**/*',
+      './public/**/*.{jpg,jpeg,png,webp,gif,mp3,mp4,mov}',
     ],
   },
   headers: async () => {
