@@ -7,15 +7,17 @@ import { siteConfig } from "@/content/site"
 import Image from "next/image"
 
 const desktopBackgroundSrcs: readonly string[] = [
-  "/desktop-background/couple (1).webp",
-  "/desktop-background/couple (2).webp",
-  "/desktop-background/couple (3).webp",
-  "/desktop-background/couple (4).webp",
-  "/desktop-background/couple (5).webp",
+  '/desktop_slide/couple 1.jpg',
+  '/desktop_slide/couple 2.jpg',
+  '/desktop_slide/couple 3.jpg',
+  '/desktop_slide/couple 4.jpg',
+  '/desktop_slide/couple 5.jpg',
+  '/desktop_slide/couple 6.jpg',
+  '/desktop_slide/couple 7.jpg',
 ]
 
 const mobileBackgroundSrcs: readonly string[] = [
-  "/frontboxes/couple (20).jpg",
+'/mobile-background/couples (61).webp',
 ]
 
 const SHOW_BUTTERFLIES = false
@@ -134,10 +136,10 @@ export function Hero() {
               />
             </div>
           ))}
-        {/* Bottom vignette — lifts text without crushing the photo */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent z-0" />
-        {/* Top vignette — subtle shadow for navbar readability */}
-        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/35 to-transparent z-0" />
+        {/* Linear gradient overlays — improve text readability across the hero */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/50 to-black/55 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0" />
+        <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-black/50 to-transparent z-0" />
       </div>
 
       {SHOW_BUTTERFLIES && (
@@ -484,13 +486,13 @@ export function Hero() {
             }}
           >
             <span className="block text-left text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] drop-shadow-2xl">
-              {siteConfig.couple.groomNickname}
+              {siteConfig.couple.brideNickname}
             </span>
             <span className="block text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl py-1 sm:py-2 opacity-80">
               +
             </span>
             <span className="block text-right text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[12rem] drop-shadow-2xl">
-              {siteConfig.couple.brideNickname}
+              {siteConfig.couple.groomNickname}
             </span>
           </div>
 

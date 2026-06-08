@@ -13,9 +13,12 @@ const DIRECTORIES = args.length > 0
       path.resolve(process.cwd(), "public", "Details"),
       path.resolve(process.cwd(), "public", "frontboxes"),
       path.resolve(process.cwd(), "public", "LoveStory"),
+      path.resolve(process.cwd(), "public", "desktop_slide"),
+      path.resolve(process.cwd(), "public", "mobile_slide"),
+      path.resolve(process.cwd(), "public", "monogram"),
     ];
 
-const VALID_INPUT_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"]);
+const VALID_INPUT_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG",".HEIC"]);
 
 async function convertImageToWebp(inputPath: string, quality: number = 80): Promise<void> {
   const ext = path.extname(inputPath);

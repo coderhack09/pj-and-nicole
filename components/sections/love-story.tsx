@@ -3,8 +3,26 @@
 import React from 'react';
 import Link from 'next/link';
 import { StorySection } from '@/components/StorySection';
+import type { FlipbookPhoto } from '@/components/PhotoFlipbook';
 import { Cinzel } from "next/font/google";
-import { siteConfig } from '@/content/site';
+
+const SECTION_IMAGE_FILES: Record<number, string[]> = {
+  1: ['story (1).webp', 'story (2).webp', 'story (3).webp', 'story (4).webp', 'story (5).webp', 'story (6).webp', 'story (7).webp'],
+  2: ['story (8).webp', 'story (9).webp', 'story (10).webp', 'story (11).webp', 'story (12).webp', 'story (13).webp', 'story (14).webp'],
+  3: ['story (1).webp', 'story (2).webp', 'story (3).webp', 'story (4).webp', 'story (5).webp', 'story (6).webp', 'story (7).webp'],
+  4: ['story (8).webp', 'story (9).webp', 'story (10).webp', 'story (11).webp', 'story (12).webp', 'story (13).webp', 'story (14).webp'],
+  5: ['story (15).webp', 'story (16).webp', 'story (17).webp', 'story (18).webp', 'story (19).webp', 'story (20).webp', 'story (21).webp'],
+  6: ['story (22).webp', 'story (23).webp', 'story (24).webp', 'story (25).webp', 'story (26).webp', 'story (27).webp', 'story (28).webp'],
+  7: ['story (29).webp', 'story (30).webp', 'story (31).webp', 'story (32).webp', 'story (33).webp', 'story (34).webp', 'story (35).webp'],
+  8: ['story (36).webp', 'story (37).webp', 'story (38).webp', 'story (39).webp', 'story (40).webp', 'story (41).webp', 'story (42).webp'],
+};
+
+function sectionPhotos(section: number, alt: string): FlipbookPhoto[] {
+  return (SECTION_IMAGE_FILES[section] ?? []).map((file, index) => ({
+    src: `/LoveStory/section${section}/${file}`,
+    alt: index === 0 ? alt : `${alt} (${index + 1})`,
+  }));
+}
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -19,14 +37,19 @@ export function LoveStory() {
     <div className="min-h-screen bg-motif-cream overflow-x-hidden">
 
 
-      <div className="text-center text-motif-medium z-0 relative px-4">
+      <div className="text-center text-motif-medium z-0 relative px-4 pt-10 sm:pt-12 md:pt-16 pb-1 sm:pb-2 md:pb-3">
         <div className="w-12 sm:w-16 h-[1px] bg-motif-silver mx-auto mb-4 sm:mb-6 opacity-60"></div>
-        <h1 className={`${cinzel.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl uppercase tracking-[0.14em] sm:tracking-[0.18em] font-normal leading-tight text-motif-deep mt-8`}>
-        Love Story
+        <h1 className="leading-none mt-4 sm:mt-5 md:mt-6" style={{
+          fontFamily: "var(--font-brittany), cursive",
+          fontSize: "clamp(2rem, 9vw, 4.5rem)",
+          color: "var(--color-motif-deep)",
+          letterSpacing: "0.01em",
+        }}>
+        When Road Trip Buddies Became Forever
         </h1>
-        {/* <p className={`${cinzel.className} text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl tracking-[0.14em] sm:tracking-[0.18em] font-normal leading-tight text-motif-medium mb-1`}>
-        From Paper to Forever
-        </p> */}
+        <p className={`${cinzel.className} text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl tracking-[0.14em] sm:tracking-[0.18em] font-normal leading-tight text-motif-medium mt-3 sm:mt-4 md:mt-5 mb-1`}>
+        A friendship that began on a journey in 2022 and blossomed into a love anchored in faith, purpose, and unwavering devotion.
+        </p>
       </div>
 
       {/* SECTION 1: Top - Dark */}
@@ -34,14 +57,12 @@ export function LoveStory() {
         theme="light"
         layout="image-left"
         isFirst={true}
-        title="From Secret Glances to Forever Vows"
-        imageSrc="/frontboxes/box (1).webp"
+        // title="From Secret Glances to Forever Vows"
+        images={sectionPhotos(1, 'Nicole and PJ — how it began')}
         text={
           <>
             <p className="mb-4">
-            Many people ask us when, where, and how our story truly began. Some say it was fate, others
-say it was algorithms. For us, it was a simple moment. One we didn’t think much of at the time,
-but one that quietly changed everything.
+            Pj and Nicole’s story began in 2022 through someone very dear to Nicole’s heart — Karina, her college classmate who had long been more like a sister. At the time, Nicole was living alone in Kansas, bravely building her life in a new country with no relatives nearby, guided only by faith, resilience, and quiet determination. Through Karina’s introduction, she met PJ, a nurse in New York — unaware that this introduction would gently change the course of her life.
             </p>
            
           </>
@@ -52,16 +73,16 @@ but one that quietly changed everything.
       <StorySection
         theme="dark"
         layout="image-right"
-        imageSrc="/desktop-background/couple (3).webp"
-        title="March 8, 2019 — Perfectly Matched"
+        images={sectionPhotos(2, 'Nicole and PJ — first impressions')}
+        // title="March 8, 2019 — Perfectly Matched"
         text={
           <>
             <p>
-            It started with a single swipe. Mutual, effortless, and seemingly ordinary. But looking back now,
-that moment was anything but ordinary. We didn’t just find a match. We found someone who
-understood our humor, shared our perspective, and felt familiar in a way we couldn’t quite
-explain. Even before we truly got to know each other, there was already a quiet sense that this
-connection was worth exploring.
+            Karina would teasingly call him the “Kilabot ng Zamboanga,” a title Nicole found amusing and hard to believe. When she finally met him, he was nothing like the bold image she imagined. Instead, he was calm, sincere, and unexpectedly gentle — almost too kind, too intentional, too good to be true. He wasn’t even her usual type, which made her wonder if someone could truly be that genuinely good.
+            </p>
+            <br />
+            <p>
+            But he was.
             </p>
           </>
         }
@@ -72,18 +93,17 @@ connection was worth exploring.
         theme="light"
         layout="image-left"
         isLast={true}
-        imageSrc="/LoveStory/April 18, 2019 — Our First Conversation.webp"
-        title="April 18, 2019 — Our First Conversation"
+        images={sectionPhotos(3, 'Nicole and PJ — road trip')}
+        // title="April 18, 2019 — Our First Conversation"
         text={
           <>
             <p>
-            What began as a simple “hey” quickly turned into hours of conversation. We remember how
-easy it was to keep talking about anything and everything. What we thought would be a short
-exchange became something we looked forward to every day. Without realizing it, we were
-already becoming part of each other’s routine, sharing pieces of our lives one conversation at a
-time.
+            In the last week of August 2022, they set out on a road trip across New York, Washington, Pennsylvania, and Niagara Falls. What began as an easy friendship on the open road slowly unfolded into something deeper. Between long drives, shared laughter, and quiet conversations, they discovered aligned dreams, shared values, and a peace in each other’s presence that felt steady and rare — like coming home.
            </p>
-           
+           <br />
+           <p>
+            Then came a small, ordinary moment that would quietly mean everything.
+           </p>
           </>
         }
       />
@@ -91,16 +111,12 @@ time.
             <StorySection
         theme="dark"
         layout="image-right"
-        imageSrc="/LoveStory/May 3, 2019 — Our First Date.webp"
-        title="May 3, 2019 — Our First Date"
+        images={sectionPhotos(4, 'Nicole and PJ — a tender gesture')}
+        // title="May 3, 2019 — Our First Date"
         text={
           <>
             <p>
-            Meeting in person came with a mix of excitement and nerves. We both wondered if the
-connection we felt would be the same in real life and it was. From the first moments,
-everything felt natural. There were a few awkward pauses, a lot of laughter, and a quiet
-realization that this was something real. That day became the beginning of something we both
-chose to hold on to.
+            At a convenience store at 5am, PJ had to step away briefly. Before leaving, he gently asked the staff to keep an eye on Nicole — as if she were someone precious entrusted to his care. It was simple. Unplanned. Unassuming. But in that tender gesture, Nicole saw his heart: protective, thoughtful, and deeply sincere. In that moment, she realized he was not just someone kind — he was her answered prayer. A love sent in God’s perfect timing.
             </p>
           </>
         }
@@ -111,16 +127,16 @@ chose to hold on to.
         theme="light"
         layout="image-left"
         isLast={true}
-        imageSrc="/LoveStory/June 2019 — Our First Trip Together.webp"
-        title="June 2019 — Our First Trip Together"
+        images={sectionPhotos(5, 'Nicole and PJ — Disneyland')}
+        // title="June 2019 — Our First Trip Together"
         text={
           <>
             <p>
-            Soon after, we traveled together for the first time. It wasn’t just about the place. It was about
-learning how to be with each other in new situations. We navigated unfamiliar roads, made
-small decisions together, and experienced both the easy and challenging moments side by side.
-Somewhere along the way, we realized that no matter where we were, what mattered most
-was that we were together.
+            In a world where so much can look perfect on the surface, they found something far more rare — a love grounded in faith, depth, and true understanding. A connection that did not rush, did not pretend, but quietly chose forever from the very beginning.
+            </p>
+            <br />
+            <p>
+            On April 2, 2023, in front of the Disneyland Castle in California, PJ officially asked Nicole to be his girlfriend — a moment filled with certainty, joy, and the unmistakable feeling that this was only the beginning of something eternal.
             </p>
            
           </>      
@@ -130,14 +146,16 @@ was that we were together.
                   <StorySection
         theme="dark"
         layout="image-right"
-        imageSrc="/LoveStory/The Years That Followed 2 Concerts together.webp"
-        title="July 30, 2019 — Our First “Yes”"
+        images={sectionPhotos(6, 'Nicole and PJ — building a life together')}
+        // title="July 30, 2019 — Our First “Yes”"
         text={
           <>
             <p>
-            On this day, we made it official. With a simple “yes,” we chose each other not just for that
-moment, but for everything that would come after. It was the start of our relationship as
-partners, built on trust, respect, and the decision to grow together.
+            For nearly a year, they embraced the long distance between Kansas and New York. The miles were not easy, but they strengthened what already felt unshakable. Every goodbye deepened their trust. Every reunion felt like an answered prayer.
+            </p>
+            <br />
+            <p>
+            In March 2024, Nicole moved to New York to begin her career and finally build a life beside PJ — no longer counting down visits, but building a home together. Side by side, they created a life rooted in faith, shared dreams, and unwavering support — both fully aware that they had become each other’s greatest blessing.
             </p>
           </>
         }
@@ -148,25 +166,17 @@ partners, built on trust, respect, and the decision to grow together.
         theme="light"
         layout="image-left"
         isLast={true}
-        imageSrc="/LoveStory/The Years That Followed 1.webp"
-        title="The Years That Followed"
+        images={sectionPhotos(7, 'Nicole and PJ — Mt. Fuji proposal')}
+        // title="The Years That Followed"
         text={
           <>
             <p>
-            The years that followed were filled with moments. Some big, some small, all meaningful. We
-went to concerts, traveled to new places, got lost more than a few times, and learned how to
-<br />
-<br />
-navigate life together. We celebrated each other’s wins, supported each other through
-challenges, and slowly built a life that felt like home.
-<br />
-<br />
-We learned that love isn’t just about the highlights. It’s in the everyday moments. The
-conversations at the end of a long day, the small acts of care, the patience, the understanding,
-and even the disagreements that taught us how to listen and grow. Through it all, we kept
-choosing each other.
+            Having walked through life’s earlier chapters with resilience, they now share one clear vision: to build a joyful, God-centered family founded on love, unity, and a faith so strong that no circumstance — and no one — could ever shake it.
             </p>
-           
+            <br />
+            <p>
+            On October 11, 2025, at the Chureito Pagoda in Mt. Fuji, Japan, beneath a gentle rain and hidden mountain skies, PJ knelt and asked Nicole to spend forever with him. Though Mt. Fuji remained behind the clouds, the moment itself was crystal clear — sacred, intentional, and long prayed for.
+            </p>
           </>      
         }
       />
@@ -174,51 +184,20 @@ choosing each other.
                   <StorySection
         theme="dark"
         layout="image-right"
-        imageSrc="/LoveStory/March 2, 2025 — Our Sixth Year Together.webp"
-        title="March 2, 2025 — Our Sixth Year Together"
+        images={sectionPhotos(8, 'Nicole and PJ — forever')}
+        // title="March 2, 2025 — Our Sixth Year Together"
         text={
           <>
             <p>
-            On our sixth year together, we found ourselves in Austria, standing in front of the Alps taking in
-how far we had come. In that moment, everything felt still and certain. And then, we took the
-next step.
+            With faith as our foundation and love as our guide, we now look forward to a lifetime of journeys — together.
 <br />
-<br />
-We got engaged.
+“I have found the one whom my soul loves.”
 
             </p>
           </>
         }
       />
 
-      {/* SECTION 9: Bottom - Dark */}
-      <StorySection
-        theme="light"
-        layout="image-left"
-        isLast={true}
-        imageSrc="/desktop-background/couple (13).webp"
-        // title="June 2019 — Our First Trip Together"
-        text={
-          <>
-            <p>
-With full hearts and a quiet sense of certainty, we made a promise not just for that day, but for
-the life we continue to build together.
-<br />
-And now… the finale becomes the beginning.
-<br />
-With teary eyes, happy hearts, and all our favorite people as witnesses,
-<br />
-We will say “I do” to every sunrise and storm, every laugh and silence, every messy day and
-magical night.
-<br />
-This isn’t just a wedding
-<br />
-It’s the start of our forever adventure.
-            </p>
-           
-          </>      
-        }
-      />
                  
       {/* Footer Decoration */}
       <div className="bg-motif-cream pt-8 sm:pt-10 md:pt-12 pb-16 sm:pb-20 md:pb-24 text-center text-motif-deep z-0 relative px-4">

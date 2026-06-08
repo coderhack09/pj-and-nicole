@@ -35,19 +35,23 @@ const hex = {
 
 
 const desktopImages: string[] = [
-  '/desktop-background/couple (1).webp',
-  '/desktop-background/couple (2).webp',
-  '/desktop-background/couple (3).webp',
-  '/desktop-background/couple (4).webp',
-  '/desktop-background/couple (5).webp',
+  '/desktop_slide/couple 1.jpg',
+  '/desktop_slide/couple 2.jpg',
+  '/desktop_slide/couple 3.jpg',
+  '/desktop_slide/couple 4.jpg',
+  '/desktop_slide/couple 5.jpg',
+  '/desktop_slide/couple 6.jpg',
+  '/desktop_slide/couple 7.jpg',
 ];
 
 const mobileImages: string[] = [
-'/mobile-background/couple (10).webp',
-  '/mobile-background/couple (9).webp',
-  '/mobile-background/couple (20).webp',
-  '/mobile-background/couple (17).webp',
-  '/mobile-background/couple (5).webp'
+'/mobile_slide/couple 1.jpg',
+'/mobile_slide/couple 2.jpg',
+'/mobile_slide/couple 3.jpg',
+'/mobile_slide/couple 4.jpg',
+'/mobile_slide/couple 5.jpg',
+'/mobile_slide/couple 6.jpg',
+'/mobile_slide/couple 7.jpg',
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onOpen, visible }) => {

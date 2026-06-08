@@ -1,71 +1,71 @@
 export const siteConfig = {
   couple: {
-    bride: "Elyzha Louise S. David", //Noenyl Bryle M. Gonzaga
-    brideNickname: "Elay", //Ltryl
-    groom: "Kenneth Jun J. Cajayon", //Ltryl B. Benitez
-    groomNickname: "Ken",
-    monogram:"/monogram/newmonogram.png" ,//Ltryl
-    backgroundMusic:"/background_music/WE & US - Moira Dela Torre (Halfway Point)  Lyric Video (mp3cut.net).mp3"
+    bride: "Teri Nicole A. Guillermo", //Noenyl Bryle M. Gonzaga
+    brideNickname: "Nicole", //Ltryl
+    groom: "Patrick James G. Javar", //Ltryl B. Benitez
+    groomNickname: "PJ",
+    monogram:"/monogram/monogram.png" ,//Ltryl
+    backgroundMusic:"/background_music/PALAGI (Wedding Version) - TJ Monterde  OFFICIAL AUDIO.mp3"
   },
   googleAPI:{
-    messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSehIpExxfuucYuZu7qCSTNPnHT_EcPbFgMPonCW9QfdCq4pQA/formResponse", //done
-    message: "https://script.google.com/macros/s/AKfycbx6NNrvPQMs7gIibTCOez7wy0iF3scLku8jum2xn25wNNYvp6s9a2XKY7GYCNzV1udB/exec", //done
-    guestList: "https://script.google.com/macros/s/AKfycbxyEFZp51ZdkjlltvNaefS8iUaKRAywtd4UjvihOsQJjWg9dVPNqaxeDSbfZy3DrX6Z/exec", //done
-    guestRequest: "https://script.google.com/macros/s/AKfycbw3nP62AaHOnQk727N7soXdR6ykYTX1KHNhXts0b2B3ceuottJNJ9i6CgOvqStj0V8Y/exec", //done
-    entourage: "https://script.google.com/macros/s/AKfycby-DB5BbNh4luhVx_RldROSHgDYdeui1h39bkkc1CJ3_VYtULX-3B0cLHZtc2IJj9GG/exec", //done
-    sponsors: "https://script.google.com/macros/s/AKfycbyX7ym2zphTllOUvkShfC8Y179lGTRr0oEb8WpR2NURI3BUo4swe_1oc8ptZ7rmdxcp/exec", //done
-    weddingDetails: "https://script.google.com/macros/s/AKfycbzmMfQg6dkFIa_tc8hAlXddWa9G7xxqJd3ZR8e502gtJhzLtWTVEf-FY5i_MFZSm2OT/exec", //done
+    messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSf8ZspBwer8NLyzpfB5a8ToJ_mCFeHj2YX07J2-SQcW4Qv65w/formResponse",   //done
+    message: "https://script.google.com/macros/s/AKfycbx6NNrvPQMs7gIibTCOez7wy0iF3scLku8jum2xn25wNNYvp6s9a2XKY7GYCNzV1udB/exec",  
+    guestList: "https://script.google.com/macros/s/AKfycbxyEFZp51ZdkjlltvNaefS8iUaKRAywtd4UjvihOsQJjWg9dVPNqaxeDSbfZy3DrX6Z/exec",  
+    guestRequest: "https://script.google.com/macros/s/AKfycbw3nP62AaHOnQk727N7soXdR6ykYTX1KHNhXts0b2B3ceuottJNJ9i6CgOvqStj0V8Y/exec",   
+    entourage: "https://script.google.com/macros/s/AKfycby-DB5BbNh4luhVx_RldROSHgDYdeui1h39bkkc1CJ3_VYtULX-3B0cLHZtc2IJj9GG/exec",  
+    sponsors: "https://script.google.com/macros/s/AKfycbyX7ym2zphTllOUvkShfC8Y179lGTRr0oEb8WpR2NURI3BUo4swe_1oc8ptZ7rmdxcp/exec",   
+    weddingDetails: "https://script.google.com/macros/s/AKfycbzmMfQg6dkFIa_tc8hAlXddWa9G7xxqJd3ZR8e502gtJhzLtWTVEf-FY5i_MFZSm2OT/exec",   
 ////google share 
     googleShare: "https://drive.google.com/drive/folders/1Sncb739WYiTkTGyAbzgmLLNijqmr8eyf?usp=sharing", 
   },
   wedding: {
-    date: "November 29, 2026",
-    time: "3:00 PM",
-    venue: "San Agustin Church",
+    date: "November 7, 2026",
+    time: "2:00 PM",
+    venue: "St. Joseph Church",
     tagline: "are getting married!",
     theme: "Our wedding palette is inspired by timeless elegance and warmth.Motif Colors: Champagne Gold, Soft Beige, Warm Soft Brown",
     motif: "#BBCED5, #B9C3A8, #F3D8C5, #D1C4D4, #ECD8BA, #F4E8D8, #E1DCCF",
   },
   details: {
     rsvp: {
-      deadline: "October 14, 2026.",
-      contact: "Elyzha Louise S. David",
-      phone: "to be announced",
+      deadline: "September 30, 2026",
+      contact: "Teri Nicole A. Guillermo",
+      phone: "+63 956 482 5255",
     },
   },
   giftRegistry: {
     QR_1:{
     id: "BPI",
-    src: "/QR/Gcash2.png",
+    src: "/monogram/BPI.png",
     label: "BPI",
-    accountNumber: "Elyzha Louise S. David",
+    accountNumber: "TE*I NI***E A GU******O",
     },
     QR_2:{
-    id: "Gcash",
-    src: "/QR/Gcash.png",
-    label: "Gcash",
-    accountNumber: "Kenneth Jun J. Cajayon",
+    id: "Zelle",
+    src: "/monogram/Zelle.png",
+    label: "Zelle",
+    accountNumber: "Patrick: xxx-xxx-0009",
     }
   },
   ceremony: {
-    location: "San Agustin Church",
-    venue: "General Luna St. Intramuros, Manila",
-    map: "https://maps.app.goo.gl/auFcNBZJvBCh6RZj9",
+    location: "St. Joseph Church",
+    venue: " Sts, Nunez cor, Tomas Claudio St, Zamboanga City",
+    map: "https://maps.app.goo.gl/c7jCXMkPfqfU2txe6",
     date: "November 29, 2026",
-    day: "Sunday",
+    day: "Saturday",
     time: "3:00 PM",
     entourageTime: "2:00 PM",
     guestsTime: "2:30 PM",
-    image: "/Details/Church.png",
+    image: "/Details/ceremony_1.webp",
   },
   reception: {
-    location: "Palacio De Manila",
-    venue: "1809 Del Pilar St. Malate Manila",
-    map: "https://maps.app.goo.gl/befpHeDXyTpy72CZ8",
+    location: "Palacio Del Sur",
+    venue: " Marcian Garden Hotel, Governor Camins Avenue, Baliwasan, Zamboanga City",
+    map: "https://maps.app.goo.gl/13V2x6vJxYe5q3W16",
     date: "November 29, 2026",
-    day: "Sunday",
+    day: "Saturday",
     time: "5:30 PM",
-    image: ["/Details/reception.png","/Details/reception1.png","/Details/reception2.png"],
+    image: ["/Details/recepton_1.webp","/Details/reception_2.webp"],
   },
   dressCode: {
       theme: "SEMI-FORMAL",
@@ -75,21 +75,21 @@ export const siteConfig = {
       female: "Guests are kindly requested to wear attire in any of the shades within our wedding palette.Color pallet and image to be followed. STRICTLY no shorts, maong jeans, t-shirts, or slippers.",
       notes: "Your Presence will make our day even more special \n Ninong: Formal Wear : Charcoal Gray suid and Slacks, white long sleeves, and burgundy neckite \n Ninang: Long Dress / Formal Dress Burgundy Long Formal Dress.",
       photo: "/Details/sponsors.png",
-      palette: "#777777, #78303A"
+      palette: "#E2E5ED, #CED2D8, #B5C1D6,#95A6C7,#8191AC"
     },
     entourage: {
       gents: "Guests are kindly requested to wear attire in any of the shades within our wedding palette.Color pallet and image to be followed. STRICTLY no shorts, maong jeans, t-shirts, or slippers.",
       ladies: "Guests are kindly requested to wear attire in any of the shades within our wedding palette.Color pallet and image to be followed. STRICTLY no shorts, maong jeans, t-shirts, or slippers.",
       notes: "Your Presence will make our day even more special \n Ninong: Formal Wear : Charcoal Gray suid and Slacks, white long sleeves, and burgundy neckite \n Ninang: Long Dress / Formal Dress Burgundy Long Formal Dress.",
-      photo: "/Details/entourage.png",
-      palette: "#4B2E2B, #F7E7CE, #F5E6D3",
+      photo: "/Details/sponsors.png",
+      palette: "#E2E5ED, #CED2D8, #B5C1D6,#95A6C7,#8191AC",
     },
     guests: {
       gents: "Guests are kindly requested to wear attire in any of the shades within our wedding palette.Color pallet and image to be followed. STRICTLY no shorts, maong jeans, t-shirts, or slippers.",
       ladies: "Guests are kindly requested to wear attire in any of the shades within our wedding palette.Color pallet and image to be followed. STRICTLY no shorts, maong jeans, t-shirts, or slippers.",
       notes: "WE KINDLY ASK OUR GUEST TO WEAR THESE COLORS \n Gentlemen : Long sleeves / suit and slacks \n Ladies : Long Dress / Formal Dress",
       photo: "/Details/guest.png",
-      palette: "#E4CBB1, #B4B1AB, #7F8873, #6380AD, #C39A74",
+      palette: "#E2E5ED, #CED2D8, #B5C1D6,#95A6C7,#8191AC",
     },
     note: "We kindly request our guests to dress in attire following our wedding palette."
   },
@@ -120,10 +120,20 @@ Now, as they prepare to say yes before God and the people they love most, Cather
     primary: "#87AE73",
     secondary: "#F5F5DC",
   },
+  playlist: {
+    title: "A Playlist from our hearts",
+    subtitle: "Songs that have been part of our journey together",
+    playlistName: "PJ & Nicole Wedding",
+    embedUrl:
+      "https://open.spotify.com/embed/playlist/2FUZHCJs6Z5iBvP0rKvQdu?utm_source=generator",
+    spotifyUrl: "https://open.spotify.com/playlist/2FUZHCJs6Z5iBvP0rKvQdu",
+  },
   snapShare: {
-    googleDriveLink: "https://drive.google.com/drive/folders/1XHy5EuSsvL3WFLFj0JrKRxElDvGR3yxb?usp=sharing",
-    hashtag: ["#KENfinallysayIdotoELAY"],
-    instructions: "Please scan this QR Code, create a folder with your name and upload the photos and videos you have taken during our wedding reception. We are delighted to see your snaps too!",
+    googleDriveLink:
+      "https://weduploader.com/upload/x2kqPwdYOMbQ5Dto?utm_source=site&utm_medium=qrcode&utm_campaign=dashboard&utm_content=x2kqPwdYOMbQ5Dto",
+    albumQR: "/QR/AlbumQR.png",
+    hashtag: ["#NicsChapterWithPj"],
+    instructions: "Please scan this QR Code and upload the photos and videos you have taken during our wedding reception. We are delighted to see your snaps too!",
   },
 }
 

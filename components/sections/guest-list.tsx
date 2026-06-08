@@ -413,8 +413,16 @@ export function GuestList() {
         </h2>
         
         <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
-          Please search for your name below to confirm your presence at our special day
+        To help us plan a beautiful and intimate celebration, we kindly ask that you confirm your attendance. Please search for your name below to confirm your presence at our special day
         </p>
+        
+        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
+        If we do not receive your response by the deadline, we will assume you are unable to attend.
+Thank you for your love and support. We truly look forward to celebrating this special day with you.
+        </p>
+        {/* <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
+          Phone: {siteConfig.details.rsvp.phone}
+        </p> */}
         <p className={`${cormorant.className} text-sm sm:text-base md:text-lg lg:text-xl text-white font-bold max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
           RSVP Deadline: {siteConfig.details.rsvp.deadline}
         </p>

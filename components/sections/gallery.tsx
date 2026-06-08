@@ -26,11 +26,17 @@ const cinzel = Cinzel({
 })
 
 const galleryItems = [
-  { image: "/mobile-background/couple (1).webp", text: " " },
-  { image: "/mobile-background/couple (2).webp", text: " " },
-  { image: "/mobile-background/couple (3).webp", text: " " },
-  { image: "/mobile-background/couple (4).webp", text: " " },
-  { image: "/mobile-background/couple (5).webp", text: " " },
+  { image: "/mobile-background/couples (47).webp", text: " " },
+  { image: "/mobile-background/couples (25).webp", text: " " },
+  { image: "/mobile-background/couples (38).webp", text: " " },
+  { image: "/mobile-background/couples (35).webp", text: " " },
+  { image: "/mobile-background/couples (33).webp", text: " " },
+  { image: "/mobile-background/couples (48).webp", text: " " },
+  { image: "/mobile-background/couples (50).webp", text: " " },
+  { image: "/mobile-background/couples (51).webp", text: " " },
+  { image: "/mobile-background/couples (52).webp", text: " " },
+  { image: "/mobile-background/couples (54).webp", text: " " },
+  
 
 ]
 
@@ -180,8 +186,12 @@ export function Gallery() {
           Our Story in Frames
         </p>
         <h2
-          className={`${cinzel.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-2 sm:mb-3`}
-          style={{ color: 'var(--color-motif-deep)' }}
+          className="leading-none" style={{
+            fontFamily: "var(--font-brittany), cursive",
+            fontSize: "clamp(2rem, 9vw, 4.5rem)",
+            color: "var(--color-motif-deep)",
+            letterSpacing: "0.01em",
+          }}
         >
           Gallery
         </h2>

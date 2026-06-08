@@ -245,8 +245,12 @@ export function BookOfGuests() {
           Our Cherished Guests
         </p>
         <h2
-          className={`${cinzel.className} text-xl sm:text-3xl md:text-4xl lg:text-5xl mb-1 sm:mb-2 md:mb-3`}
-          style={{ color: BOOK_DARK }}
+          className="leading-none" style={{
+            fontFamily: "var(--font-brittany), cursive",
+            fontSize: "clamp(2rem, 9vw, 4.5rem)",
+            color: "var(--color-motif-deep)",
+            letterSpacing: "0.01em",
+          }}
         >
           Book of Guests
         </h2>

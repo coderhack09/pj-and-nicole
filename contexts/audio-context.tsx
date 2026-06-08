@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useRef, ReactNode } from "react"
+import { createContext, useContext, useRef, ReactNode, useCallback } from "react"
 
 interface AudioContextType {
   audioRef: React.RefObject<HTMLAudioElement | null>
@@ -12,20 +12,23 @@ const AudioContext = createContext<AudioContextType | null>(null)
 
 export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const interruptedByExternalRef = useRef(false)
 
-  const pauseMusic = () => {
+  const pauseMusic = useCallback(() => {
     if (audioRef.current && !audioRef.current.paused) {
+      interruptedByExternalRef.current = true
       audioRef.current.pause()
     }
-  }
+  }, [])
 
-  const resumeMusic = () => {
-    if (audioRef.current && audioRef.current.paused) {
+  const resumeMusic = useCallback(() => {
+    if (interruptedByExternalRef.current && audioRef.current?.paused) {
       audioRef.current.play().catch((error) => {
         console.log("Resume playback blocked:", error)
       })
     }
-  }
+    interruptedByExternalRef.current = false
+  }, [])
 
   return (
     <AudioContext.Provider value={{ audioRef, pauseMusic, resumeMusic }}>

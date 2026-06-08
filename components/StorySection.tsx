@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Cinzel, Cormorant_Garamond } from 'next/font/google'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 
+import { PhotoFlipbook, type FlipbookPageLayout, type FlipbookPhoto } from './PhotoFlipbook'
 import { TornPaperEdge } from './TornPaperEdge'
 
 const cinzel = Cinzel({
@@ -18,7 +19,10 @@ const cormorant = Cormorant_Garamond({
 })
 
 interface StorySectionProps {
-  imageSrc: string
+  /** Primary photo; defaults to the first entry in `images` when omitted */
+  imageSrc?: string
+  /** One photo per flipbook page for this section */
+  images?: FlipbookPhoto[]
   title?: string
   text: React.ReactNode
   layout: 'image-left' | 'image-right'
@@ -60,6 +64,7 @@ function isLandscapeLike(w: number, h: number) {
 
 export const StorySection: React.FC<StorySectionProps> = ({
   imageSrc,
+  images,
   title,
   text,
   layout,
@@ -69,10 +74,69 @@ export const StorySection: React.FC<StorySectionProps> = ({
   const isDark = theme === 'dark'
   const [loadedSize, setLoadedSize] = useState<{ w: number; h: number } | null>(null)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxPhoto, setLightboxPhoto] = useState<FlipbookPhoto | null>(null)
+  const [lightboxSize, setLightboxSize] = useState<{ w: number; h: number } | null>(null)
+  const [sectionPhotoSizes, setSectionPhotoSizes] = useState<Map<string, { w: number; h: number }>>(
+    new Map(),
+  )
+
+  const primarySrc = imageSrc ?? images?.[0]?.src ?? ''
+
+  const flipbookPhotos = useMemo<FlipbookPhoto[]>(
+    () =>
+      images && images.length > 0
+        ? images
+        : primarySrc
+          ? [{ src: primarySrc, alt: title ? `Story: ${title}` : 'Story moment' }]
+          : [],
+    [primarySrc, images, title],
+  )
 
   useEffect(() => {
+    if (!primarySrc) return
     setLoadedSize(null)
-  }, [imageSrc])
+    const probe = new window.Image()
+    probe.onload = () => {
+      setLoadedSize({ w: probe.naturalWidth, h: probe.naturalHeight })
+    }
+    probe.src = primarySrc
+  }, [primarySrc, images])
+
+  useEffect(() => {
+    if (flipbookPhotos.length === 0) return
+
+    flipbookPhotos.forEach((photo) => {
+      if (!photo.src) return
+      const probe = new window.Image()
+      probe.onload = () => {
+        setSectionPhotoSizes((prev) => {
+          if (prev.has(photo.src)) return prev
+          const next = new Map(prev)
+          next.set(photo.src, { w: probe.naturalWidth, h: probe.naturalHeight })
+          return next
+        })
+      }
+      probe.src = photo.src
+    })
+  }, [flipbookPhotos])
+
+  const flipbookLayout = useMemo<FlipbookPageLayout>(() => {
+    if (imageAspect === 'landscape' || imageAspect === 'square') return 'single'
+    if (imageAspect === 'portrait') return 'adaptive'
+    if (flipbookPhotos.length === 0) return 'adaptive'
+
+    const probed = flipbookPhotos.filter((photo) => sectionPhotoSizes.has(photo.src))
+    if (probed.length === 0) return 'single'
+
+    const allProbedLandscape = probed.every((photo) => {
+      const size = sectionPhotoSizes.get(photo.src)!
+      return isLandscapeLike(size.w, size.h)
+    })
+
+    if (allProbedLandscape) return 'single'
+
+    return 'adaptive'
+  }, [flipbookPhotos, imageAspect, sectionPhotoSizes])
 
   useEffect(() => {
     if (!lightboxOpen) return
@@ -109,7 +173,7 @@ export const StorySection: React.FC<StorySectionProps> = ({
           ? isLandscapeLike(loadedSize.w, loadedSize.h)
           : false
 
-  /** Desktop: side-by-side only when we know it’s portrait-like; `auto` before load stays stacked to avoid wrong crop. */
+  /** Desktop: side-by-side only when we know it's portrait-like; `auto` before load stays stacked to avoid wrong crop. */
   const usePortraitSplitDesktop = layoutKnown && !landscapeLike
 
   const bgColor = isDark ? 'bg-motif-deep' : 'bg-motif-cream relative z-10'
@@ -131,66 +195,58 @@ export const StorySection: React.FC<StorySectionProps> = ({
     return () => observer.disconnect()
   }, [])
 
-  const imageFrameClass = isDark
-    ? 'bg-motif-cream p-1.5 md:p-3 shadow-lg'
-    : 'bg-motif-cream p-1.5 md:p-3 shadow-md'
-
   const rotation =
     layout === 'image-left' ? 'rotate-1 md:rotate-2' : '-rotate-1 md:-rotate-2'
 
   const flexDirectionRow = layout === 'image-left' ? 'md:flex-row' : 'md:flex-row-reverse'
   const textAlignment = layout === 'image-left' ? 'text-left' : 'text-left md:text-right'
 
-  const imageBg = isDark ? 'bg-black/15' : 'bg-motif-deep/[0.04]'
-
   const sizesInline =
     '(max-width: 767px) 100vw, ' +
-    (usePortraitSplitDesktop ? '(max-width: 1024px) 45vw, 38vw' : '(max-width: 1024px) 90vw, min(1200px, 85vw)')
+    (usePortraitSplitDesktop ? '(max-width: 1024px) 55vw, 42vw' : '(max-width: 1024px) 90vw, min(1200px, 85vw)')
 
-  const imageClassMobile =
-    'w-full h-auto max-h-[min(88vh,26rem)] object-contain object-center transition-[transform,opacity] duration-500 ease-out group-hover/image:scale-[1.03] group-hover/image:opacity-[0.97]'
+  const spreadSizesInline =
+    '(max-width: 767px) 46vw, ' +
+    (usePortraitSplitDesktop ? '(max-width: 1024px) 28vw, 21vw' : '(max-width: 1024px) 45vw, 40vw')
 
-  const imageClassPortraitMd =
-    'md:max-h-[min(90vh,40rem)] lg:max-h-[min(92vh,44rem)]'
+  const imageClassName =
+    'object-contain object-center transition-[transform,opacity] duration-500 ease-out group-hover/image:scale-[1.03] group-hover/image:opacity-[0.97]'
 
-  const imageClassLandscapeMd =
-    'md:max-h-[min(82vh,48rem)] lg:max-h-[min(85vh,56rem)] xl:max-h-[min(88vh,60rem)]'
+  const spreadImageClassName =
+    'object-cover object-center transition-[transform,opacity] duration-500 ease-out group-hover/image:scale-[1.02] group-hover/image:opacity-[0.97]'
 
-  const storyImage = (
-    <Image
-      src={imageSrc}
-      alt={title ? `Story: ${title}` : 'Story moment'}
-      width={intrinsic.w}
-      height={intrinsic.h}
-      sizes={sizesInline}
-      className={`${imageClassMobile} ${usePortraitSplitDesktop ? imageClassPortraitMd : imageClassLandscapeMd}`}
-      quality={90}
-      priority={false}
-      onLoadingComplete={(img) => {
-        setLoadedSize({
-          w: img.naturalWidth,
-          h: img.naturalHeight,
-        })
-      }}
-    />
-  )
+  const isLandscapeFlipbook = flipbookLayout === 'single' && !usePortraitSplitDesktop
 
-  const framedImage = (
-    <div
-      className={`${imageFrameClass} w-full max-w-full overflow-hidden rounded-sm ${usePortraitSplitDesktop ? rotation : 'md:rotate-0'}`}
-    >
-      <div className={`relative w-full overflow-hidden ${imageBg}`}>
-        {storyImage}
-        {isDark && (
-          <div className="pointer-events-none absolute inset-0 z-10 bg-black/5 mix-blend-multiply" />
-        )}
-      </div>
-    </div>
-  )
+  const containerClassName = usePortraitSplitDesktop
+    ? 'min-h-[14rem] sm:min-h-[18rem] md:min-h-[22rem] lg:min-h-[26rem] md:max-h-[min(90vh,40rem)] lg:max-h-[min(92vh,44rem)]'
+    : isLandscapeFlipbook
+      ? 'min-h-[11rem] sm:min-h-[14rem] md:min-h-[18rem] lg:min-h-[22rem] aspect-[16/10] sm:aspect-[16/9] max-h-[min(72vh,40rem)] md:max-h-[min(78vh,48rem)] lg:max-h-[min(82vh,56rem)]'
+      : 'min-h-[12rem] sm:min-h-[16rem] md:min-h-[20rem] lg:min-h-[24rem] md:max-h-[min(82vh,48rem)] lg:max-h-[min(85vh,56rem)] xl:max-h-[min(88vh,60rem)]'
+
+  const spreadContainerClassName = usePortraitSplitDesktop
+    ? 'min-h-[16rem] sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[30rem] md:max-h-[min(92vh,44rem)] lg:max-h-[min(94vh,48rem)]'
+    : 'min-h-[14rem] sm:min-h-[18rem] md:min-h-[22rem] lg:min-h-[28rem] md:max-h-[min(88vh,52rem)]'
+
+  const openLightbox = (photo: FlipbookPhoto) => {
+    setLightboxPhoto(photo)
+    setLightboxSize(null)
+    setLightboxOpen(true)
+
+    const probe = new window.Image()
+    probe.onload = () => {
+      setLightboxSize({ w: probe.naturalWidth, h: probe.naturalHeight })
+    }
+    probe.src = photo.src
+  }
+
+  const lightboxSrc = lightboxPhoto?.src ?? primarySrc
+  const lightboxIntrinsic =
+    lightboxSize ??
+    (lightboxPhoto?.src === primarySrc ? intrinsic : scaledIntrinsic(fallbackAspect))
 
   const textBlock = (
     <div
-      className={`${textColor} w-full ${usePortraitSplitDesktop ? `md:w-7/12 ${textAlignment}` : 'max-w-3xl mx-auto text-center md:px-4'}`}
+      className={`${textColor} w-full ${usePortraitSplitDesktop ? `md:w-5/12 ${textAlignment}` : 'max-w-3xl mx-auto text-center md:px-4'}`}
     >
       {title && (
         <h2
@@ -231,7 +287,6 @@ export const StorySection: React.FC<StorySectionProps> = ({
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
         }`}
       >
-        {/* Mobile: always column, image first. Desktop portrait: row; desktop landscape: column full-width image. */}
         <div
           className={`flex flex-col gap-6 sm:gap-8 md:gap-10 ${
             usePortraitSplitDesktop ? `${flexDirectionRow} md:items-start md:justify-between` : ''
@@ -240,19 +295,30 @@ export const StorySection: React.FC<StorySectionProps> = ({
           <div
             className={`group/image w-full transition-all duration-1000 delay-300 ease-out ${
               isVisible ? 'scale-100 opacity-100' : 'scale-[0.98] opacity-0'
-            } ${usePortraitSplitDesktop ? 'md:w-5/12 md:shrink-0' : ''}`}
+            } ${usePortraitSplitDesktop ? 'md:w-7/12 md:shrink-0' : ''}`}
           >
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(true)}
-              className={`relative block w-full cursor-zoom-in rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-motif-accent/60 focus-visible:ring-offset-2 ${
+            <PhotoFlipbook
+              photos={flipbookPhotos}
+              variant="story"
+              pageLayout={flipbookLayout}
+              isDark={isDark}
+              rotation={usePortraitSplitDesktop ? rotation : 'md:rotate-0'}
+              imageSizes={sizesInline}
+              spreadImageSizes={spreadSizesInline}
+              imageClassName={
+                isLandscapeFlipbook
+                  ? 'object-contain object-center transition-[transform,opacity] duration-500 ease-out group-hover/image:scale-[1.02] group-hover/image:opacity-[0.97]'
+                  : imageClassName
+              }
+              spreadImageClassName={spreadImageClassName}
+              containerClassName={containerClassName}
+              spreadContainerClassName={spreadContainerClassName}
+              onPhotoClick={(photo) => openLightbox(photo)}
+              clickLabel={title ? `Enlarge photo: ${title}` : 'Enlarge story photo'}
+              focusRingOffsetClass={
                 isDark ? 'focus-visible:ring-offset-motif-deep' : 'focus-visible:ring-offset-motif-cream'
-              }`}
-              aria-label={title ? `Enlarge photo: ${title}` : 'Enlarge story photo'}
-            >
-              {framedImage}
-              <span className="pointer-events-none absolute inset-0 rounded-sm ring-0 ring-motif-accent/0 transition-[box-shadow,ring] duration-300 group-hover/image:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.35)] group-hover/image:ring-2 group-hover/image:ring-motif-accent/25" />
-            </button>
+              }
+            />
           </div>
 
           {textBlock}
@@ -283,10 +349,10 @@ export const StorySection: React.FC<StorySectionProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={imageSrc}
-              alt={title ? `Full size: ${title}` : 'Story moment full size'}
-              width={intrinsic.w}
-              height={intrinsic.h}
+              src={lightboxSrc}
+              alt={lightboxPhoto?.alt ?? (title ? `Full size: ${title}` : 'Story moment full size')}
+              width={lightboxIntrinsic.w}
+              height={lightboxIntrinsic.h}
               sizes="100vw"
               className="max-h-[min(92vh,900px)] w-auto max-w-full object-contain"
               quality={95}

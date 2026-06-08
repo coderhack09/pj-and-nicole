@@ -36,7 +36,10 @@ export function Registry() {
         </h2>
         
         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-motif-cream/90 font-light max-w-2xl mx-auto leading-relaxed px-2">
-        With hearts full of gratitude, we ask only for your presence and prayers as we celebrate together. Should you wish to bless us further, a gift toward our future would be a blessing we will always treasure. 
+        With all that we have, we've been truly blessed.
+Your presence and prayers are all that we request,
+But if you desire to give nonetheless,
+Monetary gift is the one we suggest.
 
         </p>
         

@@ -6,7 +6,7 @@ import { Instagram, Facebook, Twitter, Share2, Copy, Download, Check } from "luc
 import { Section } from "@/components/section"
 import { QRCodeCanvas } from "qrcode.react"
 import { siteConfig } from "@/content/site"
-import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import Image from "next/image"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 
 const cormorant = Cormorant_Garamond({
@@ -30,8 +30,7 @@ export function SnapShare() {
   const [isMobile, setIsMobile] = useState(false)
 
   const websiteUrl = typeof window !== "undefined" ? window.location.href : "https://example.com"
-  // https://drive.google.com/drive/folders/1_40IPBZ0bF26uPV7ngLgjyPnUoN4V07Y?usp=sharing
-  const driveLink = siteConfig.snapShare.googleDriveLink
+  const uploadLink = siteConfig.snapShare.googleDriveLink
   // const hashtags = [siteConfig.snapShare.hashtag] (multiple hashtags)
   const hashtags = siteConfig.snapShare.hashtag
   const allHashtagsText = hashtags.join(" ")
@@ -80,11 +79,11 @@ export function SnapShare() {
     link.click()
   }
 
-  const downloadDriveQRCode = () => {
-    const canvas = document.getElementById("drive-qr") as HTMLCanvasElement | null
+  const downloadAlbumQRCode = () => {
+    const canvas = document.getElementById("album-qr") as HTMLCanvasElement | null
     if (!canvas) return
     const link = document.createElement("a")
-    link.download = "drive-qr.png"
+    link.download = "album-qr.png"
     link.href = canvas.toDataURL("image/png")
     link.click()
   }
@@ -109,10 +108,10 @@ export function SnapShare() {
     }
   }
 
-  const copyDriveLink = async () => {
-    if (driveLink) {
+  const copyUploadLink = async () => {
+    if (uploadLink) {
       try {
-        await navigator.clipboard.writeText(driveLink)
+        await navigator.clipboard.writeText(uploadLink)
         setCopiedDriveLink(true)
         setTimeout(() => setCopiedDriveLink(false), 2000)
       } catch (err) {
@@ -268,21 +267,21 @@ export function SnapShare() {
                     whileHover={{ scale: 1.03 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <CloudinaryImage src="/frontboxes/box (1).webp" alt="Wedding moment 1" fill className="object-cover" style={{ imageOrientation: "from-image" }} />
+                    <Image src="/mobile-background/couples (49).webp" alt="Wedding moment 1" fill className="object-cover" style={{ imageOrientation: "from-image" }} />
                   </motion.div>
                   <motion.div
                     className="relative aspect-square rounded-lg sm:rounded-xl overflow-hidden shadow-md border-2 border-motif-medium/30 hover:border-motif-medium/50 transition-all"
                     whileHover={{ scale: 1.03 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <CloudinaryImage src="/frontboxes/box (3).webp" alt="Wedding moment 2" fill className="object-cover" style={{ imageOrientation: "from-image" }} />
+                    <Image src="/mobile-background/couples (51).webp" alt="Wedding moment 2" fill className="object-cover" style={{ imageOrientation: "from-image" }} />
                   </motion.div>
                   <motion.div
                     className="relative col-span-2 aspect-[3/2] rounded-lg sm:rounded-xl overflow-hidden shadow-md border-2 border-motif-medium/30 hover:border-motif-medium/50 transition-all"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.25 }}
                   >
-                    <CloudinaryImage src="/desktop-background/couple (17).webp" alt="Wedding moment 3" fill className="object-cover" />
+                    <Image src="/desktop-background/couples (36).webp" alt="Wedding moment 3" fill className="object-cover" />
                   </motion.div>
                 </div>
                 <p
@@ -472,7 +471,7 @@ export function SnapShare() {
               </div>
             </div>
 
-            {driveLink && (
+            {uploadLink && (
               <div>
                 <div className="bg-motif-cream/95 rounded-xl sm:rounded-[22px] p-3 sm:p-5 md:p-7 shadow-[0_18px_45px_rgba(0,0,0,0.25)] text-center border border-motif-deep">
                   <div
@@ -484,19 +483,27 @@ export function SnapShare() {
                   <p
                     className={`${cormorant.className} text-motif-deep text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 px-1`}
                   >
-                    Help us capture our special day! Scan the QR or use the actions below to drop your clips into our shared Drive.
+                    Help us capture our special day! Scan the QR or use the actions below to upload your photos and videos.
                   </p>
                   <div className="mx-auto inline-flex flex-col items-center bg-white/90 backdrop-blur-sm p-2.5 sm:p-5 rounded-xl sm:rounded-2xl shadow-md border border-motif-cream/80 mb-3 sm:mb-4">
                     <div className="mb-2 sm:mb-3 p-1.5 sm:p-3 rounded-lg sm:rounded-xl bg-motif-cream border border-motif-cream/80">
                       <div className="bg-white p-1.5 sm:p-3 rounded-lg shadow-sm border border-motif-cream/80">
-                        <QRCodeCanvas id="drive-qr" value={driveLink} size={isMobile ? 130 : 200} includeMargin className="bg-white" fgColor={MOTIF_DEEP_HEX} />
+                        <QRCodeCanvas
+                          id="album-qr"
+                          value={uploadLink}
+                          size={isMobile ? 150 : 220}
+                          level="H"
+                          includeMargin
+                          className="bg-white"
+                          fgColor="#000000"
+                        />
                       </div>
                     </div>
                     <p className={`${cormorant.className} text-motif-medium text-xs sm:text-sm`}>Scan with your camera app</p>
                   </div>
                   <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
                     <button
-                      onClick={copyDriveLink}
+                      onClick={copyUploadLink}
                       className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-motif-deep text-motif-cream border border-motif-deep/80 shadow-sm hover:shadow-md text-xs sm:text-sm transition-all ${
                         copiedDriveLink ? "bg-motif-accent border-motif-accent text-white" : ""
                       }`}
@@ -524,7 +531,7 @@ export function SnapShare() {
                       )}
                     </button>
                     <button
-                      onClick={downloadDriveQRCode}
+                      onClick={downloadAlbumQRCode}
                       className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-motif-deep text-motif-cream border border-motif-deep/80 shadow-sm hover:shadow-md text-xs sm:text-sm transition-all font-semibold"
                     >
                       <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -536,7 +543,7 @@ export function SnapShare() {
                       </span>
                     </button>
                     <a
-                      href={driveLink}
+                      href={uploadLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-white border border-motif-deep/80 text-motif-deep shadow-sm hover:shadow-md hover:bg-motif-deep/10 text-xs sm:text-sm transition-all"
@@ -545,11 +552,11 @@ export function SnapShare() {
                       <span
                         className={`${cormorant.className} tracking-[0.15em] sm:tracking-[0.18em] uppercase font-semibold text-motif-deep`}
                       >
-                        Open Drive
+                        Upload Photos
                       </span>
                     </a>
                   </div>
-                  <p className={`${cormorant.className} text-motif-deep text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed`}>or tap &quot;Open Google Drive Folder.&quot;</p>
+                  <p className={`${cormorant.className} text-motif-deep text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed`}>or tap &quot;Upload Photos&quot; below.</p>
                 </div>
               </div>
             )}

@@ -3,7 +3,7 @@
 import { Section } from "@/components/section"
 import { siteConfig } from "@/content/site"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import Image from "next/image"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -32,7 +32,7 @@ export function Welcome() {
     >
       {/* Corner floral decoration - same as countdown section */}
       <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <CloudinaryImage
+        <Image
           src="/decoration/flower-decoration-left-bottom-corner2.png"
           alt=""
           width={300}
@@ -42,7 +42,7 @@ export function Welcome() {
         />
       </div>
       <div className="absolute right-0 top-0 z-0 pointer-events-none">
-        <CloudinaryImage
+        <Image
           src="/decoration/flower-decoration-left-bottom-corner2.png"
           alt=""
           width={300}
@@ -52,7 +52,7 @@ export function Welcome() {
         />
       </div>
       <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <CloudinaryImage
+        <Image
           src="/decoration/flower-decoration-left-bottom-corner2.png"
           alt=""
           width={300}
@@ -62,7 +62,7 @@ export function Welcome() {
         />
       </div>
       <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <CloudinaryImage
+        <Image
           src="/decoration/flower-decoration-left-bottom-corner2.png"
           alt=""
           width={300}
@@ -91,8 +91,13 @@ export function Welcome() {
               {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
             </p>
             <h2
-              className={`${cinzel.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[2.9rem]`}
-              style={{ color: 'var(--color-motif-deep)' }}
+              className="leading-none"
+               style={{
+                fontFamily: "var(--font-brittany), cursive",
+                fontSize: "clamp(2rem, 9vw, 4.5rem)",
+                color: "var(--color-motif-deep)",
+                letterSpacing: "0.01em",  
+              }}
             >
               Welcome to our forever
             </h2>
@@ -124,11 +129,61 @@ export function Welcome() {
             style={{ color: 'var(--color-motif-deep)' }}
           >
             <p>
-            Our love is a blessing we hold close to our hearts, and we are deeply grateful to God for gently guiding our story and bringing our lives together in such a beautiful way. With hearts full of joy and thanksgiving, we are so happy to share this special moment of our journey with you. Your love, prayers, and support have meant so much to us, and it would mean the world to celebrate this meaningful day surrounded by the people who have been part of our lives and our story.
+            With hearts full of gratitude and joy, we invite you to share in one of the most sacred and meaningful days of our lives.
             </p>
             <p>
-            As you prepare to celebrate with us, please feel free to browse through the important information and helpful reminders. Everything you need to know for the day is here. Your presence and shared joy will truly make this celebration even more special for us. 
+            Our love has been guided by faith, strengthened through every season, and beautifully affirmed by those who have sincerely celebrated our happiness from the very beginning. To the ones who prayed for us, believed in us, and rejoiced in our union with genuine hearts — we thank you. Your unwavering support has meant more than words can express.
             </p>
+            <p>
+            You are not simply guests at our wedding; you are part of the foundation upon which this new chapter is built.
+            </p>
+            <p>
+            As we stand before God and our loved ones to begin our life together, we do so surrounded by those who truly cherish our joy. Every detail of this day has been prepared with love, and we look forward to celebrating this blessed moment with you.
+            </p>
+            <p>
+            Kindly explore this invitation for event details and RSVP information.
+            </p>
+            {/* Closing — hashtag & sign-off */}
+            <div className="pt-3 sm:pt-4 md:pt-5 space-y-5 sm:space-y-6 md:space-y-7">
+              <div className="flex items-center justify-center gap-2">
+                <span className="h-px w-10 sm:w-16 md:w-20 bg-motif-accent/40" />
+                <span className="w-1.5 h-1.5 rounded-full bg-motif-accent" />
+                <span className="h-px w-10 sm:w-16 md:w-20 bg-motif-accent/40" />
+              </div>
+
+              <div className="mx-auto max-w-md rounded-xl sm:rounded-2xl border border-motif-accent/25 bg-white/55 px-4 py-4 sm:px-6 sm:py-5 shadow-[0_4px_20px_rgba(91,102,85,0.06)]">
+                <p
+                  className={`${cormorant.className} text-[0.65rem] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.26em] mb-2 sm:mb-2.5`}
+                  style={{ color: "var(--color-motif-deep)", opacity: 0.75 }}
+                >
+                  Share in our joy
+                </p>
+                <p className="text-[0.75rem] sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-3.5">
+                  As you celebrate with us, please use our official hashtag when posting your photos and memories.
+                </p>
+                <p
+                  className={`${cinzel.className} text-base sm:text-lg md:text-xl tracking-[0.06em] sm:tracking-[0.08em]`}
+                  style={{ color: "var(--color-motif-accent)" }}
+                >
+                  #NicsChapterWithPj
+                </p>
+              </div>
+
+              <div className="space-y-1.5 sm:space-y-2 pt-1">
+                <p
+                  className={`${cormorant.className} italic text-[0.8rem] sm:text-sm md:text-base`}
+                  style={{ color: "var(--color-motif-deep)", opacity: 0.88 }}
+                >
+                  With all our love,
+                </p>
+                <p
+                  className={`${cinzel.className} text-xl sm:text-2xl md:text-3xl tracking-[0.1em] sm:tracking-[0.14em]`}
+                  style={{ color: "var(--color-motif-deep)" }}
+                >
+                  {groomName} &amp; {brideName}
+                </p>
+              </div>
+            </div>
           </div>
           </div>
         </div>
