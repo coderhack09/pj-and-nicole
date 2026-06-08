@@ -10,7 +10,7 @@ export const siteConfig = {
   googleAPI:{
     messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSf8ZspBwer8NLyzpfB5a8ToJ_mCFeHj2YX07J2-SQcW4Qv65w/formResponse",   //done
     message: "https://script.google.com/macros/s/AKfycbwHy2NRkT8PIY71PVJM2CH_ew7bic976VKPRQBmpRip1T5nZE5yECkkcp9ptVJl_RGBfw/exec",  //done
-    guestList: "https://script.google.com/macros/s/AKfycbz43TSEtOwsS8QcVMKGwnFGR2r8qeV0CWGmYTXAPV0aNkFveBl9LIPdxwaAil5BDfJV8g/exec",  //done
+    guestList: "https://script.google.com/macros/s/AKfycbwXXz3nuD2MzTZRSk3eG3b4gDoa77CfZjm2iSiGnRwpYW_cOVwdvihjgJWd_Xqi_MrIJA/exec",  //done
     guestRequest: "https://script.google.com/macros/s/AKfycbyE0LIuMBWwuNjc6N8Owm1GutscACJurTwBK209zVP_BaNumusjBxjxTw8FtiZY6AdErg/exec",   //done
     entourage: "https://script.google.com/macros/s/AKfycbyNqocSscG2w3uB4Uscx3eICqhuzqd0SCMPyZikDxCGgAbM2CSkbMvoI4uwnmDkqHw2yA/exec",  //done
     sponsors: "https://script.google.com/macros/s/AKfycbwCiB7IbqI6iHU1QqgAXLFHE6SGdUnycPxV_t-_4_ZDJwf3LYnlL940g8PI83OmkorNvg/exec",   //done
