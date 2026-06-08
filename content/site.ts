@@ -11,10 +11,10 @@ export const siteConfig = {
     messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSfXvyM4HX_WzeqhNBsVItLE3vxaX-jxfyQcUzlmIYemI6seEA/formResponse",   //done
     message: "https://script.google.com/macros/s/AKfycbyhXfGvSAOcfVjsGTCFSERVHIBT8YSAF6UWufUSZVFIsO-DmRCfP4cu8BGFC9_kGd2Z/exec",  //done
     guestList: "https://script.google.com/macros/s/AKfycbweU0eMuEW3ZNX9BJq0DTNE316uD9aOJXTwi7Jqo-fyRbcJ4oXmC_bl4xn-9yysI50/exec",  //done
-    guestRequest: "https://script.google.com/macros/s/AKfycbyE0LIuMBWwuNjc6N8Owm1GutscACJurTwBK209zVP_BaNumusjBxjxTw8FtiZY6AdErg/exec",   
-    entourage: "https://script.google.com/macros/s/AKfycbyNqocSscG2w3uB4Uscx3eICqhuzqd0SCMPyZikDxCGgAbM2CSkbMvoI4uwnmDkqHw2yA/exec",  
-    sponsors: "https://script.google.com/macros/s/AKfycbwCiB7IbqI6iHU1QqgAXLFHE6SGdUnycPxV_t-_4_ZDJwf3LYnlL940g8PI83OmkorNvg/exec",   
-    weddingDetails: "https://script.google.com/macros/s/AKfycbyz8OEA4fNrbOY4B18MSe0nTe-GyELNJv96O998I5OKNBD3HtQsZ88VIAnLLci5bBZnGQ/exec",   
+    guestRequest: "https://script.google.com/macros/s/AKfycbwGjD_2Bz-m3PRk5Dqz7w6N5iIs0WyrjwTGSt8-ADpbgySvQRPtYMX2ADQ4Rus37Qyl/exec",   //done
+    entourage: "https://script.google.com/macros/s/AKfycbyd0hWgNr8CkleXsPlH_qhJpm70QRM2Y86-5536jqfBgh8uR-t3LKVSJWKhlgb45mZM/exec",  //done
+    sponsors: "https://script.google.com/macros/s/AKfycbxq-e_jonY_uVE22DLlOoQoRdsN8HjCc47LtavCpRkoXQCjHb0iJa_4bf2KD6wMPucW/exec",  //done 
+    weddingDetails: "https://script.google.com/macros/s/AKfycbwqB5jIWv_-VZbX4jCGK6lEH6lEHqaSqrVcUaBSP-SWNtnPy36VmDl0xT-ocKPrWSNA/exec",   //done
 ////google share 
     googleShare: "https://docs.google.com/spreadsheets/d/1OXyjq_SnyzPwIT1tRKo4Sjf_00sexatbmFA9DdJ-bR4/edit?usp=sharing", 
   },
@@ -51,7 +51,7 @@ export const siteConfig = {
     location: "St. Joseph Church",
     venue: " Sts, Nunez cor, Tomas Claudio St, Zamboanga City",
     map: "https://maps.app.goo.gl/c7jCXMkPfqfU2txe6",
-    date: "November 29, 2026",
+    date: "November 7, 2026",
     day: "Saturday",
     time: "3:00 PM",
     entourageTime: "2:00 PM",
@@ -62,7 +62,7 @@ export const siteConfig = {
     location: "Palacio Del Sur",
     venue: " Marcian Garden Hotel, Governor Camins Avenue, Baliwasan, Zamboanga City",
     map: "https://maps.app.goo.gl/13V2x6vJxYe5q3W16",
-    date: "November 29, 2026",
+    date: "November 7, 2026",
     day: "Saturday",
     time: "5:30 PM",
     image: ["/Details/recepton_1.webp","/Details/reception_2.webp"],
