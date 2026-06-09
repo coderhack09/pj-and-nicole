@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import {
   Copy,
@@ -27,8 +27,50 @@ import {
 
 const CATEGORY_TABS = ["all", "Entourage", "Principal Sponsor"] as const
 
+interface EntourageRow {
+  Name?: string
+  RoleCategory?: string
+  RoleTitle?: string
+  Email?: string
+}
+
+interface PrincipalSponsorRow {
+  MalePrincipalSponsor?: string
+  FemalePrincipalSponsor?: string
+}
+
+function countFilledProposalRoles(
+  entourageRows: EntourageRow[],
+  sponsorRows: PrincipalSponsorRow[]
+) {
+  const filledEntourage = PROPOSAL_ROLES.filter((role) => {
+    if (role.category !== "Entourage") return false
+    return entourageRows.some(
+      (row) =>
+        (row.Name ?? "").trim() &&
+        (row.RoleCategory ?? "").trim().toLowerCase() ===
+          role.roleCategory.toLowerCase()
+    )
+  }).length
+
+  const hasNinong = sponsorRows.some((row) =>
+    (row.MalePrincipalSponsor ?? "").trim()
+  )
+  const hasNinang = sponsorRows.some((row) =>
+    (row.FemalePrincipalSponsor ?? "").trim()
+  )
+
+  return {
+    filledEntourage,
+    filledSponsors: (hasNinong ? 1 : 0) + (hasNinang ? 1 : 0),
+  }
+}
+
 export function ProposalDashboard() {
   const siteConfig = useSiteConfig()
+  const [entourageRows, setEntourageRows] = useState<EntourageRow[]>([])
+  const [sponsorRows, setSponsorRows] = useState<PrincipalSponsorRow[]>([])
+  const [isCountsLoading, setIsCountsLoading] = useState(true)
   const [copiedRoleId, setCopiedRoleId] = useState<string | null>(null)
   const [categoryTab, setCategoryTab] = useState<(typeof CATEGORY_TABS)[number]>("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -84,6 +126,41 @@ export function ProposalDashboard() {
     })
   }
 
+  const fetchSheetCounts = async () => {
+    setIsCountsLoading(true)
+    try {
+      const [entourageRes, sponsorsRes] = await Promise.all([
+        fetch("/api/entourage", { cache: "no-store" }),
+        fetch("/api/principal-sponsor", { cache: "no-store" }),
+      ])
+
+      if (entourageRes.ok) {
+        const data = await entourageRes.json()
+        setEntourageRows(Array.isArray(data) ? data : [])
+      }
+
+      if (sponsorsRes.ok) {
+        const data = await sponsorsRes.json()
+        setSponsorRows(Array.isArray(data) ? data : [])
+      }
+    } catch (error) {
+      console.error("Error fetching entourage/sponsor counts:", error)
+    } finally {
+      setIsCountsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchSheetCounts()
+
+    const handleEntourageUpdate = () => {
+      setTimeout(fetchSheetCounts, 1000)
+    }
+
+    window.addEventListener("entourageUpdated", handleEntourageUpdate)
+    return () => window.removeEventListener("entourageUpdated", handleEntourageUpdate)
+  }, [])
+
   const filteredRoles = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
     return PROPOSAL_ROLES.filter((role) => {
@@ -97,8 +174,10 @@ export function ProposalDashboard() {
     })
   }, [categoryTab, searchQuery])
 
-  const entourageCount = PROPOSAL_ROLES.filter((r) => r.category === "Entourage").length
-  const sponsorCount = PROPOSAL_ROLES.filter((r) => r.category === "Principal Sponsor").length
+  const entourageRoleSlots = PROPOSAL_ROLES.filter((r) => r.category === "Entourage").length
+  const sponsorRoleSlots = PROPOSAL_ROLES.filter((r) => r.category === "Principal Sponsor").length
+  const { filledEntourage: filledEntourageCount, filledSponsors: filledSponsorCount } =
+    countFilledProposalRoles(entourageRows, sponsorRows)
 
   return (
     <div className="space-y-6">
@@ -131,20 +210,29 @@ export function ProposalDashboard() {
           <div className="flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs text-[#6B7280]">
             <Users className="h-3.5 w-3.5 text-[#A67C52]" />
             <span>
-              <strong className="text-[#6B4423]">{entourageCount}</strong> entourage roles
+              <strong className="text-[#6B4423]">
+                {isCountsLoading ? "…" : filledEntourageCount}
+              </strong>{" "}
+              / {entourageRoleSlots} entourage filled
             </span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs text-[#6B7280]">
             <Crown className="h-3.5 w-3.5 text-[#A67C52]" />
             <span>
-              <strong className="text-[#6B4423]">{sponsorCount}</strong> sponsor roles
+              <strong className="text-[#6B4423]">
+                {isCountsLoading ? "…" : filledSponsorCount}
+              </strong>{" "}
+              / {sponsorRoleSlots} sponsors filled
             </span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs text-[#6B7280]">
             <Link2 className="h-3.5 w-3.5 text-[#A67C52]" />
             <span>
-              <strong className="text-[#6B4423]">{PROPOSAL_ROLES.length}</strong> total links
+              <strong className="text-[#6B4423]">{PROPOSAL_ROLES.length}</strong> proposal links
             </span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-dashed border-[#E5E7EB] bg-white/80 px-3 py-1.5 text-[10px] text-[#9CA3AF]">
+            Live from Google Sheets
           </div>
         </div>
       </div>
@@ -258,8 +346,8 @@ export function ProposalDashboard() {
           if (!open) closeInviteModal()
         }}
       >
-        <DialogContent className="max-w-lg border-[#E5E7EB] bg-white p-0 sm:max-w-xl">
-          <div className="border-b border-[#F3F4F6] bg-gradient-to-r from-[#FFF8F0] to-white px-6 py-5">
+        <DialogContent className="flex w-full max-w-lg flex-col gap-0 overflow-hidden border-[#E5E7EB] bg-white p-0 sm:max-w-xl">
+          <div className="border-b border-[#F3F4F6] bg-gradient-to-r from-[#FFF8F0] to-white px-6 py-5 pr-12">
             <DialogHeader className="space-y-1 text-left">
               <DialogTitle className="flex items-center gap-2 text-[#6B4423]">
                 <Sparkles className="h-5 w-5 text-[#A67C52]" />
@@ -273,8 +361,8 @@ export function ProposalDashboard() {
             </DialogHeader>
           </div>
 
-          <div className="space-y-4 px-6 py-5">
-            <div>
+          <div className="min-w-0 space-y-4 px-6 py-5">
+            <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold tracking-wider text-[#6B7280] uppercase">
                 Recipient name
               </label>
@@ -283,11 +371,11 @@ export function ProposalDashboard() {
                 placeholder="e.g. Auntie Maria"
                 value={inviteeName}
                 onChange={(e) => setInviteeName(e.target.value)}
-                className="w-full rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#A67C52]/30 focus:outline-none"
+                className="box-border w-full min-w-0 rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#A67C52]/30 focus:outline-none"
               />
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="mb-1.5 block text-xs font-semibold tracking-wider text-[#6B7280] uppercase">
                 Message preview
               </label>
@@ -295,23 +383,23 @@ export function ProposalDashboard() {
                 readOnly
                 rows={8}
                 value={getInviteMessage()}
-                className="w-full resize-none rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-4 py-3 text-sm leading-relaxed text-[#374151] focus:outline-none"
+                className="box-border w-full min-w-0 resize-none overflow-x-hidden rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-4 py-3 text-sm leading-relaxed break-words whitespace-pre-wrap text-[#374151] focus:outline-none"
               />
             </div>
 
             {selectedInviteRole && (
-              <div className="rounded-xl border border-[#E5E7EB] bg-[#FFF8F0] px-4 py-3">
+              <div className="min-w-0 rounded-xl border border-[#E5E7EB] bg-[#FFF8F0] px-4 py-3">
                 <p className="text-[10px] font-semibold tracking-wider text-[#8B6F47] uppercase">
                   Proposal link
                 </p>
-                <p className="mt-1 truncate font-mono text-xs text-[#6B7280]">
+                <p className="mt-1 break-all font-mono text-xs text-[#6B7280]">
                   {getProposalLink(selectedInviteRole.id)}
                 </p>
               </div>
             )}
           </div>
 
-          <DialogFooter className="border-t border-[#F3F4F6] bg-[#F9FAFB] px-6 py-4 sm:justify-between">
+          <DialogFooter className="shrink-0 border-t border-[#F3F4F6] bg-[#F9FAFB] px-6 py-4 sm:justify-between">
             <button
               type="button"
               onClick={closeInviteModal}
