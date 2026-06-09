@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, Suspense } from "react"
+import { useState, useEffect, useCallback, Suspense, useRef, useLayoutEffect } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import Image from "next/image"
@@ -61,48 +61,6 @@ function RomanticSparkles() {
       <span className="absolute -left-10 top-[18%] h-36 w-36 rounded-full bg-motif-accent/20 blur-3xl animate-pulse-slow" />
       <span className="absolute -right-8 top-[42%] h-44 w-44 rounded-full bg-motif-soft/50 blur-3xl animate-float" />
       <span className="absolute bottom-[12%] left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-motif-accent/15 blur-3xl animate-float-delayed" />
-
-      <div className="absolute left-1/2 top-[34%] h-[min(78vw,360px)] w-[min(78vw,360px)] -translate-x-1/2 -translate-y-1/2">
-        <motion.div
-          className="absolute inset-0 rounded-full border border-motif-accent/20"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute inset-[10%] rounded-full border border-dashed border-motif-accent/25"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute inset-[22%] rounded-full border border-motif-accent/10"
-          animate={{ rotate: 360, scale: [1, 1.03, 1] }}
-          transition={{
-            rotate: { duration: 42, repeat: Infinity, ease: "linear" },
-            scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-          }}
-        />
-
-        <motion.span
-          className="absolute top-0 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-motif-accent/75 shadow-[0_0_10px_color-mix(in_srgb,var(--color-motif-accent)_80%,transparent)]"
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.35, 0.85] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.span
-          className="absolute top-1/2 right-0 h-2 w-2 -translate-y-1/2 rounded-full bg-motif-accent/75 shadow-[0_0_10px_color-mix(in_srgb,var(--color-motif-accent)_80%,transparent)]"
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.35, 0.85] }}
-          transition={{ duration: 2.8, repeat: Infinity, delay: 0.5, ease: "easeInOut" }}
-        />
-        <motion.span
-          className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-motif-accent/75 shadow-[0_0_10px_color-mix(in_srgb,var(--color-motif-accent)_80%,transparent)]"
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.35, 0.85] }}
-          transition={{ duration: 2.8, repeat: Infinity, delay: 1, ease: "easeInOut" }}
-        />
-        <motion.span
-          className="absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-motif-accent/75 shadow-[0_0_10px_color-mix(in_srgb,var(--color-motif-accent)_80%,transparent)]"
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.35, 0.85] }}
-          transition={{ duration: 2.8, repeat: Infinity, delay: 1.5, ease: "easeInOut" }}
-        />
-      </div>
 
       {ROMANTIC_SPARKLES.map((sparkle) => (
         <motion.span
@@ -242,8 +200,26 @@ function ProposalAskSection({
   onYes: () => void
   onNo: () => void
 }) {
+  const questionRef = useRef<HTMLDivElement>(null)
+  const [questionHeight, setQuestionHeight] = useState<number | null>(null)
+
+  useLayoutEffect(() => {
+    const node = questionRef.current
+    if (!node) return
+
+    const syncHeight = () => {
+      setQuestionHeight(node.getBoundingClientRect().height)
+    }
+
+    syncHeight()
+    const observer = new ResizeObserver(syncHeight)
+    observer.observe(node)
+
+    return () => observer.disconnect()
+  }, [roleSingular, description])
+
   return (
-    <div className="relative mx-auto mt-8 w-full sm:mt-10">
+    <div className="relative mx-auto mt-0 w-full sm:mt-10">
       {coAttendants.length > 0 && (
         <div className="mx-auto mb-8 max-w-lg space-y-3 rounded-2xl border border-motif-accent/20 bg-white/60 px-5 py-4 text-center sm:px-6 sm:py-5">
           <div
@@ -267,7 +243,7 @@ function ProposalAskSection({
         </div>
       )}
 
-      <div className="relative border-t border-motif-accent/15 pt-8 sm:pt-10">
+      <div className="relative pt-0 sm:border-t sm:border-motif-accent/15 sm:pt-10">
         <span
           aria-hidden
           className="pointer-events-none absolute right-0 bottom-8 h-56 w-56 rounded-full opacity-35 blur-3xl sm:bottom-12 sm:h-72 sm:w-72"
@@ -277,68 +253,103 @@ function ProposalAskSection({
           }}
         />
 
-        <div className="relative flex flex-row items-end justify-between gap-4 sm:gap-6 md:gap-10">
-          {/* Left — question, quote, buttons */}
-          <div className="relative z-10 flex min-w-0 flex-1 flex-col items-start text-left">
-            <p
-              className={`${cinzel.className} text-xs tracking-[0.34em] uppercase sm:text-sm sm:tracking-[0.4em]`}
-              style={{ color: "var(--color-motif-medium)" }}
-            >
-              Will You Be Our
-            </p>
+        <div className="relative flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-6 md:gap-10 mt-10">
+          <div className="flex flex-row items-stretch justify-between gap-3 sm:contents">
+            {/* Question + quote */}
+            <div className="relative z-10 flex min-w-0 flex-1 flex-col items-start text-left">
+              <div ref={questionRef} className="w-full">
+                <p
+                  className={`${cormorant.className} text-xs tracking-[0.34em] uppercase sm:text-sm sm:tracking-[0.4em]`}
+                  style={{ color: "var(--color-motif-medium)" }}
+                >
+                  Will You Be Our
+                </p>
 
-            <h2
-              className="mt-2 leading-[0.92] sm:mt-3"
-              style={{
-                ...brittanyStyle,
-                fontSize: "clamp(2.75rem, 11vw, 5.25rem)",
-              }}
-            >
-              {roleSingular}?
-            </h2>
+                <h2
+                  className="mt-2 leading-[0.92] sm:mt-3"
+                  style={{
+                    ...playlistScriptStyle,
+                    fontFamily: "var(--font-playlist-script), cursive",
+                    fontSize: "clamp(2.75rem, 11vw, 5.25rem)",
+                    color: "var(--color-motif-deep)",
+                    opacity: 0.9,
+                    letterSpacing: "0.01em",
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    fontVariant: "normal",
+                    fontStretch: "normal",
+                    fontVariantLigatures: "normal",
+                    fontVariantNumeric: "normal",
+                  }}
+                >
+                  {roleSingular}?
+                </h2>
 
-            <p
-              className={`${cormorant.className} mt-5 max-w-lg text-sm leading-[1.75] font-light italic sm:mt-6 sm:text-base md:mt-7 md:text-lg md:leading-relaxed`}
-              style={{ color: "var(--color-motif-medium)" }}
-            >
-              &ldquo;{description}&rdquo;
-            </p>
+                <p
+                  className={`${cormorant.className} mt-3 max-w-lg pr-1 text-sm leading-[1.65] font-light italic sm:mt-6 sm:pr-0 sm:text-base sm:leading-[1.75] md:mt-7 md:text-lg md:leading-relaxed`}
+                  style={{ color: "var(--color-motif-medium)" }}
+                >
+                  &ldquo;{description}&rdquo;
+                </p>
+              </div>
 
-            <div className="mt-8 flex w-full flex-row gap-2 sm:mt-10 sm:max-w-md sm:gap-3 md:mt-12">
-              <button onClick={onYes} className={`${primaryBtnClass} min-w-0 flex-1`}>
-                <span className="hidden sm:inline">Yes, I&apos;d Be Honored</span>
-                <span className="sm:hidden">Yes</span>
-              </button>
-              <button
-                onClick={onNo}
-                className={`${secondaryBtnClass} min-w-0 flex-1`}
-                style={{ color: "var(--color-motif-medium)" }}
-              >
-                <span className="hidden sm:inline">Regretfully Decline</span>
-                <span className="sm:hidden">Decline</span>
-              </button>
+              {/* Desktop / tablet buttons */}
+              <div className="mt-8 hidden w-full flex-row gap-3 sm:mt-10 sm:flex sm:max-w-md md:mt-12">
+                <button onClick={onYes} className={`${primaryBtnClass} min-w-0 flex-1`}>
+                  Yes, I&apos;d Be Honored
+                </button>
+                <button
+                  onClick={onNo}
+                  className={`${secondaryBtnClass} min-w-0 flex-1`}
+                  style={{ color: "var(--color-motif-medium)" }}
+                >
+                  Regretfully Decline
+                </button>
+              </div>
             </div>
+
+            {/* Couple illustration — height tracks question block on mobile */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              aria-hidden
+              style={
+                questionHeight
+                  ? ({ "--ask-image-h": `${questionHeight}px` } as React.CSSProperties)
+                  : undefined
+              }
+              className="pointer-events-none relative -mr-1 flex w-[38%] max-w-[168px] shrink-0 items-center justify-end self-stretch translate-x-4 max-sm:h-[var(--ask-image-h)] sm:mr-0 sm:block sm:w-[min(36vw,240px)] sm:max-w-none sm:translate-x-0 md:w-[min(32vw,280px)] lg:w-[300px]"
+            >
+              <div className="relative h-full w-full sm:h-auto sm:aspect-[3/4] sm:translate-y-4 md:translate-y-6">
+                <Image
+                  src="/Details/guest.png"
+                  alt=""
+                  fill
+                  className="object-contain object-[right_center] drop-shadow-[0_20px_48px_rgba(15,28,63,0.14)] sm:object-bottom"
+                  sizes="(max-width: 640px) 38vw, 300px"
+                  priority
+                />
+              </div>
+            </motion.div>
           </div>
 
-          {/* Right — couple illustration, anchored to bottom */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            aria-hidden
-            className="pointer-events-none relative w-[42%] max-w-[180px] shrink-0 sm:w-[min(36vw,240px)] sm:max-w-none md:w-[min(32vw,280px)] lg:w-[300px]"
-          >
-            <div className="relative h-[280px] w-full translate-y-1 sm:h-auto sm:aspect-[3/4] sm:translate-y-4 md:translate-y-6">
-              <Image
-                src="/Details/guest.png"
-                alt=""
-                fill
-                className="object-contain object-bottom drop-shadow-[0_20px_48px_rgba(15,28,63,0.14)]"
-                sizes="(max-width: 640px) 58vw, 300px"
-                priority
-              />
-            </div>
-          </motion.div>
+          {/* Mobile buttons — full width below text + image */}
+          <div className="flex w-full flex-row gap-2.5 sm:hidden">
+            <button
+              onClick={onYes}
+              className={`${primaryBtnClass} min-h-11 min-w-0 flex-1 px-4 py-3.5 text-[10px] tracking-[0.12em]`}
+            >
+              Yes
+            </button>
+            <button
+              onClick={onNo}
+              className={`${secondaryBtnClass} min-h-11 min-w-0 flex-1 px-4 py-3.5 text-[10px] tracking-[0.12em]`}
+              style={{ color: "var(--color-motif-medium)" }}
+            >
+              Decline
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -487,11 +498,11 @@ export function ProposalPage({ role }: ProposalPageProps) {
               className={cardClass}
             >
               <RomanticSparkles />
-              <div className="relative z-10 w-full space-y-6 pt-1 sm:space-y-8 sm:pt-2">
+              <div className="relative z-10 w-full space-y-3 pt-1 sm:space-y-8 sm:pt-2">
                 <ProposalIntroSection venue={venue} />
 
                 <div
-                  className="mx-auto max-w-xl space-y-4 border-y border-motif-accent/15 px-1 py-5 text-[13px] leading-[1.75] font-light italic sm:space-y-5 sm:px-0 sm:py-8 sm:text-base sm:leading-[1.8]"
+                  className="mx-auto max-w-xl space-y-3 border-t border-motif-accent/15 px-1 pt-4 pb-0 text-[13px] leading-[1.75] font-light italic sm:space-y-5 sm:px-0 sm:border-y sm:py-8 sm:text-base sm:leading-[1.8]"
                   style={{ color: "var(--color-motif-deep)", opacity: 0.88 }}
                 >
                   <p className="text-pretty">
