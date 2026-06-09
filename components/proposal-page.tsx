@@ -259,7 +259,7 @@ function ProposalAskSection({
             <div className="relative z-10 flex min-w-0 flex-1 flex-col items-start text-left">
               <div ref={questionRef} className="w-full">
                 <p
-                  className={`${cormorant.className} text-xs tracking-[0.34em] uppercase sm:text-sm sm:tracking-[0.4em]`}
+                  className={`${cormorant.className} text-xs tracking-[0.34em] uppercase sm:text-sm sm:tracking-[0.4em] font-bold`}
                   style={{ color: "var(--color-motif-medium)" }}
                 >
                   Will You Be Our
