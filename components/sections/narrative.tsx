@@ -1,7 +1,7 @@
 "use client"
 
 import { Section } from "@/components/section"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Stack from "@/components/stack"
 import { motion } from "motion/react"
 import { Cormorant_Garamond } from "next/font/google"
@@ -12,6 +12,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export function Narrative() {
+  const siteConfig = useSiteConfig()
   const ourStory = siteConfig.narratives?.ourStory || ""
   const storyParagraphs = ourStory
     .trim()

@@ -4,18 +4,18 @@ import {
   Users,
   MessageSquare,
   Crown,
-  FileText,
   LayoutDashboard,
   RefreshCw,
   ExternalLink,
   UserPlus,
+  Heart,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 
 interface DashboardSidebarProps {
-  activeTab: "dashboard" | "guests" | "requests" | "messages" | "entourage" | "details"
-  onTabChange: (tab: "dashboard" | "guests" | "requests" | "messages" | "entourage" | "details") => void
+  activeTab: "dashboard" | "guests" | "requests" | "messages" | "entourage" | "proposals"
+  onTabChange: (tab: "dashboard" | "guests" | "requests" | "messages" | "entourage" | "proposals") => void
   guestRequestCount: number
   messageCount: number
 }
@@ -26,6 +26,7 @@ export function DashboardSidebar({
   guestRequestCount,
   messageCount,
 }: DashboardSidebarProps) {
+  const siteConfig = useSiteConfig()
   const navItems = [
     {
       id: "dashboard" as const,
@@ -58,9 +59,9 @@ export function DashboardSidebar({
       badge: null,
     },
     {
-      id: "details" as const,
-      label: "Wedding Details",
-      icon: FileText,
+      id: "proposals" as const,
+      label: "Proposal Invites",
+      icon: Heart,
       badge: null,
     },
   ]

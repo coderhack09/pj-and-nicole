@@ -1,5 +1,5 @@
 import MasonryGallery from "@/components/masonry-gallery"
-import { siteConfig } from "@/content/site"
+import { getSiteConfig } from "@/lib/site-config"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
 import { fetchGalleryImages } from "@/lib/fetch-gallery-images"
 import { Cinzel, Cormorant_Garamond } from "next/font/google"
@@ -20,6 +20,7 @@ const GALLERY_DECO_FILTER = ""
 export const revalidate = 3600
 
 export default async function GalleryPage() {
+  const siteConfig = await getSiteConfig()
   const allImages = await fetchGalleryImages()
   const images = allImages.map((src) => ({
     src,

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Section } from "@/components/section"
 import { Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Image from "next/image"
 
 const cinzel = Cinzel({
@@ -11,11 +11,11 @@ const cinzel = Cinzel({
   weight: ["400", "600"],
 })
 
-const GCASH_QR = Object.values(siteConfig?.giftRegistry ?? {})
-
 export function Registry() {
-  const [activeQr, setActiveQr] = useState(GCASH_QR[0]?.id ?? "")
-  const activeItem = GCASH_QR.find((i) => i.id === activeQr) ?? GCASH_QR[0]
+  const siteConfig = useSiteConfig()
+  const gcashQr = Object.values(siteConfig.giftRegistry ?? {})
+  const [activeQr, setActiveQr] = useState(gcashQr[0]?.id ?? "")
+  const activeItem = gcashQr.find((i) => i.id === activeQr) ?? gcashQr[0]
 
   return (
     <Section
@@ -58,7 +58,7 @@ Monetary gift is the one we suggest.
         </h3> */}
         <div className="flex flex-col items-center gap-4 sm:gap-6">
           <div className="inline-flex rounded-lg border border-motif-cream/40 bg-motif-cream/5 p-1">
-            {GCASH_QR.map((item) => (
+            {gcashQr.map((item) => (
               <button
                 key={item.id}
                 type="button"

@@ -14,6 +14,7 @@ export const siteConfig = {
     guestRequest: "https://script.google.com/macros/s/AKfycbwGjD_2Bz-m3PRk5Dqz7w6N5iIs0WyrjwTGSt8-ADpbgySvQRPtYMX2ADQ4Rus37Qyl/exec",   //done
     entourage: "https://script.google.com/macros/s/AKfycbyd0hWgNr8CkleXsPlH_qhJpm70QRM2Y86-5536jqfBgh8uR-t3LKVSJWKhlgb45mZM/exec",  //done
     sponsors: "https://script.google.com/macros/s/AKfycbxq-e_jonY_uVE22DLlOoQoRdsN8HjCc47LtavCpRkoXQCjHb0iJa_4bf2KD6wMPucW/exec",  //done 
+    proposalResponses: "https://script.google.com/macros/s/AKfycbyd0hWgNr8CkleXsPlH_qhJpm70QRM2Y86-5536jqfBgh8uR-t3LKVSJWKhlgb45mZM/exec", // uses entourage script with action: proposal
     weddingDetails: "https://script.google.com/macros/s/AKfycbwqB5jIWv_-VZbX4jCGK6lEH6lEHqaSqrVcUaBSP-SWNtnPy36VmDl0xT-ocKPrWSNA/exec",   //done
 ////google share 
     googleShare: "https://docs.google.com/spreadsheets/d/1OXyjq_SnyzPwIT1tRKo4Sjf_00sexatbmFA9DdJ-bR4/edit?usp=sharing", 
@@ -32,6 +33,11 @@ export const siteConfig = {
       contact: "Teri Nicole A. Guillermo",
       phone: "+63 956 482 5255",
     },
+  },
+  contact: {
+    bridePhone: "+63 956 482 5255",
+    groomPhone: "",
+    email: "",
   },
   giftRegistry: {
     QR_1:{

@@ -1,6 +1,6 @@
 "use client"
 
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import {
   Calendar,
   MapPin,
@@ -15,6 +15,8 @@ import {
 } from "lucide-react"
 
 export function WeddingDetails() {
+  const siteConfig = useSiteConfig()
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -31,12 +33,12 @@ export function WeddingDetails() {
             <h1 className="text-3xl font-serif font-bold">
               {siteConfig.couple.groomNickname} & {siteConfig.couple.brideNickname}
             </h1>
-            <p className="text-white/90 text-lg mt-1">are getting married!</p>
+            <p className="text-white/90 text-lg mt-1">{siteConfig.wedding.tagline}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 text-white/90">
           <Calendar className="h-5 w-5" />
-          <span className="text-lg">{siteConfig.weddingDate}</span>
+          <span className="text-lg">{siteConfig.wedding.date}</span>
         </div>
       </div>
 
@@ -54,16 +56,16 @@ export function WeddingDetails() {
             <div>
               <label className="text-sm font-medium text-[#6B7280] block mb-1">Groom</label>
               <p className="text-lg font-semibold text-[#111827]">
-                {siteConfig.couple.groomName}
+                {siteConfig.couple.groom}
               </p>
-              <p className="text-sm text-[#6B7280]">"{siteConfig.couple.groomNickname}"</p>
+              <p className="text-sm text-[#6B7280]">&quot;{siteConfig.couple.groomNickname}&quot;</p>
             </div>
             <div className="border-t border-[#E5E7EB] pt-4">
               <label className="text-sm font-medium text-[#6B7280] block mb-1">Bride</label>
               <p className="text-lg font-semibold text-[#111827]">
-                {siteConfig.couple.brideName}
+                {siteConfig.couple.bride}
               </p>
-              <p className="text-sm text-[#6B7280]">"{siteConfig.couple.brideNickname}"</p>
+              <p className="text-sm text-[#6B7280]">&quot;{siteConfig.couple.brideNickname}&quot;</p>
             </div>
           </div>
         </div>
@@ -81,14 +83,14 @@ export function WeddingDetails() {
               <Calendar className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
                 <label className="text-sm font-medium text-[#6B7280] block">Date</label>
-                <p className="text-[#111827] font-medium">{siteConfig.weddingDate}</p>
+                <p className="text-[#111827] font-medium">{siteConfig.wedding.date}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Clock className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
                 <label className="text-sm font-medium text-[#6B7280] block">Time</label>
-                <p className="text-[#111827] font-medium">{siteConfig.time}</p>
+                <p className="text-[#111827] font-medium">{siteConfig.ceremony.time}</p>
               </div>
             </div>
           </div>
@@ -109,13 +111,13 @@ export function WeddingDetails() {
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-[#111827] font-medium">{siteConfig.ceremony.venueName}</p>
-                <p className="text-sm text-[#6B7280] mt-1">{siteConfig.ceremony.address}</p>
+                <p className="text-[#111827] font-medium">{siteConfig.ceremony.location}</p>
+                <p className="text-sm text-[#6B7280] mt-1">{siteConfig.ceremony.venue}</p>
               </div>
             </div>
-            {siteConfig.ceremony.googleMapsUrl && (
+            {siteConfig.ceremony.map && (
               <a
-                href={siteConfig.ceremony.googleMapsUrl}
+                href={siteConfig.ceremony.map}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[#8B6F47] hover:text-[#6B5335] font-medium transition-colors"
@@ -139,13 +141,13 @@ export function WeddingDetails() {
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-[#111827] font-medium">{siteConfig.reception.venueName}</p>
-                <p className="text-sm text-[#6B7280] mt-1">{siteConfig.reception.address}</p>
+                <p className="text-[#111827] font-medium">{siteConfig.reception.location}</p>
+                <p className="text-sm text-[#6B7280] mt-1">{siteConfig.reception.venue}</p>
               </div>
             </div>
-            {siteConfig.reception.googleMapsUrl && (
+            {siteConfig.reception.map && (
               <a
-                href={siteConfig.reception.googleMapsUrl}
+                href={siteConfig.reception.map}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[#8B6F47] hover:text-[#6B5335] font-medium transition-colors"
@@ -172,7 +174,7 @@ export function WeddingDetails() {
               <Phone className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
                 <label className="text-sm font-medium text-[#6B7280] block">
-                  {siteConfig.couple.groomNickname}'s Phone
+                  {siteConfig.couple.groomNickname}&apos;s Phone
                 </label>
                 <a
                   href={`tel:${siteConfig.contact.groomPhone}`}
@@ -188,7 +190,7 @@ export function WeddingDetails() {
               <Phone className="h-5 w-5 text-[#6B7280] mt-0.5 flex-shrink-0" />
               <div>
                 <label className="text-sm font-medium text-[#6B7280] block">
-                  {siteConfig.couple.brideNickname}'s Phone
+                  {siteConfig.couple.brideNickname}&apos;s Phone
                 </label>
                 <a
                   href={`tel:${siteConfig.contact.bridePhone}`}
@@ -227,20 +229,18 @@ export function WeddingDetails() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-white/60 rounded-lg p-4 backdrop-blur-sm">
             <label className="text-sm font-medium text-[#6B7280] block mb-1">Theme</label>
-            <p className="text-[#6B4423] font-semibold">{siteConfig.theme || "Classic Elegance"}</p>
+            <p className="text-[#6B4423] font-semibold">{siteConfig.wedding.theme}</p>
           </div>
           <div className="bg-white/60 rounded-lg p-4 backdrop-blur-sm">
             <label className="text-sm font-medium text-[#6B7280] block mb-1">Dress Code</label>
-            <p className="text-[#6B4423] font-semibold">{siteConfig.dressCode || "Formal Attire"}</p>
+            <p className="text-[#6B4423] font-semibold">{siteConfig.dressCode.theme}</p>
           </div>
           <div className="bg-white/60 rounded-lg p-4 backdrop-blur-sm">
             <label className="text-sm font-medium text-[#6B7280] block mb-1">Hashtag</label>
-            <p className="text-[#8B6F47] font-semibold">{siteConfig.hashtag || "#ForeverTogether"}</p>
+            <p className="text-[#8B6F47] font-semibold">{siteConfig.snapShare.hashtag[0]}</p>
           </div>
         </div>
       </div>
     </div>
   )
 }
-
-

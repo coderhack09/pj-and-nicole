@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Section } from "@/components/section"
 import { motion } from "motion/react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Counter from "@/components/Counter"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
 
@@ -83,6 +83,7 @@ function CountdownUnit({ value, label }: CountdownUnitProps) {
 }
 
 export function Countdown() {
+  const siteConfig = useSiteConfig()
   const ceremonyDate = siteConfig.ceremony.date
   const ceremonyTimeDisplay = siteConfig.ceremony.time
   const [ceremonyMonth = "June", ceremonyDayRaw = "7", ceremonyYear = "2026"] = ceremonyDate.split(" ")

@@ -10,14 +10,15 @@ import {
   LogOut,
   X,
 } from "lucide-react"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { DashboardSidebar } from "@/components/dashboard-sidebar"
 import { DashboardOverview } from "@/components/dashboard-overview"
 import { ImprovedGuestList, Guest } from "@/components/improved-guest-list"
 import { GuestRequests } from "@/components/guest-requests"
 import { GuestMessages } from "@/components/guest-messages"
+import { type Message } from "@/app/api/messages/route"
 import { EntourageSponsors } from "@/components/entourage-sponsors"
-import { WeddingDetailsEditor } from "@/components/wedding-details-editor"
+import { ProposalDashboard } from "@/components/proposal-dashboard"
 
 interface GuestRequest {
   Name: string
@@ -41,6 +42,7 @@ interface PrincipalSponsor {
 }
 
 export default function DashboardPage() {
+  const siteConfig = useSiteConfig()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
@@ -48,7 +50,7 @@ export default function DashboardPage() {
   const [filteredGuests, setFilteredGuests] = useState<Guest[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<"dashboard" | "guests" | "requests" | "messages" | "entourage" | "details">("dashboard")
+  const [activeTab, setActiveTab] = useState<"dashboard" | "guests" | "requests" | "messages" | "entourage" | "proposals">("dashboard")
   
   // Guest Request state
   const [guestRequests, setGuestRequests] = useState<GuestRequest[]>([])
@@ -62,6 +64,10 @@ export default function DashboardPage() {
   const [principalSponsors, setPrincipalSponsors] = useState<PrincipalSponsor[]>([])
   const [filteredPrincipalSponsors, setFilteredPrincipalSponsors] = useState<PrincipalSponsor[]>([])
 
+  // Guest messages state (from Messages Google Sheet via /api/messages)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isMessagesLoading, setIsMessagesLoading] = useState(false)
+
   // Password - you can change this!
   const DASHBOARD_PASSWORD = "2026" // Change this to your preferred password
 
@@ -74,6 +80,7 @@ export default function DashboardPage() {
       fetchGuestRequests()
       fetchEntourage()
       fetchPrincipalSponsors()
+      fetchMessages()
     }
   }, [])
 
@@ -98,6 +105,40 @@ export default function DashboardPage() {
       setError("Failed to load guest list")
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const fetchMessages = async () => {
+    setIsMessagesLoading(true)
+    try {
+      const response = await fetch("/api/messages", {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages")
+      }
+
+      const data = await response.json()
+
+      if (!Array.isArray(data)) {
+        console.warn("Unexpected messages response; expected an array", data)
+        setMessages([])
+        return
+      }
+
+      const parsed = data
+        .filter((m: Message) => m.name || m.message || m.timestamp)
+        .reverse()
+
+      setMessages(parsed)
+    } catch (error) {
+      console.error("Error fetching messages:", error)
+    } finally {
+      setIsMessagesLoading(false)
     }
   }
 
@@ -170,6 +211,7 @@ export default function DashboardPage() {
       fetchGuestRequests()
       fetchEntourage()
       fetchPrincipalSponsors()
+      fetchMessages()
     } else {
       setError("Incorrect password. Please try again.")
       setPassword("")
@@ -182,6 +224,7 @@ export default function DashboardPage() {
     setPassword("")
     setGuests([])
     setFilteredGuests([])
+    setMessages([])
   }
 
   const handleSyncSpreadsheet = () => {
@@ -189,6 +232,7 @@ export default function DashboardPage() {
     fetchGuestRequests()
     fetchEntourage()
     fetchPrincipalSponsors()
+    fetchMessages()
   }
 
   const handleApproveRequest = async (request: GuestRequest) => {
@@ -380,8 +424,7 @@ export default function DashboardPage() {
 
   const stats = getRSVPStats()
 
-  // Count messages (guests with messages)
-  const messageCount = guests.filter(g => g.message && g.message.trim()).length
+  const messageCount = messages.length
 
   // Login Screen
   if (!isAuthenticated) {
@@ -550,7 +593,7 @@ export default function DashboardPage() {
           )}
 
           {activeTab === "messages" && (
-            <GuestMessages />
+            <GuestMessages messages={messages} onRefresh={fetchMessages} isLoading={isMessagesLoading} />
           )}
 
           {activeTab === "entourage" && (
@@ -563,9 +606,7 @@ export default function DashboardPage() {
             />
           )}
 
-          {activeTab === "details" && (
-            <WeddingDetailsEditor />
-          )}
+          {activeTab === "proposals" && <ProposalDashboard />}
         </div>
       </div>
     </div>

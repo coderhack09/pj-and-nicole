@@ -1,6 +1,7 @@
 "use client"
 
 import { AudioProvider } from "@/contexts/audio-context"
+import { SiteConfigProvider } from "@/contexts/site-config-context"
 import BackgroundMusic from "@/components/background-music"
 
 /**
@@ -11,9 +12,11 @@ import BackgroundMusic from "@/components/background-music"
  */
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AudioProvider>
-      <BackgroundMusic />
-      {children}
-    </AudioProvider>
+    <SiteConfigProvider>
+      <AudioProvider>
+        <BackgroundMusic />
+        {children}
+      </AudioProvider>
+    </SiteConfigProvider>
   )
 }

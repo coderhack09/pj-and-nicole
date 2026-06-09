@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState, useRef } from "react"
 import { Section } from "@/components/section"
 import { Loader2, Users } from "lucide-react"
 import { Cormorant_Garamond } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -18,6 +18,7 @@ interface PrincipalSponsor {
 }
 
 export function PrincipalSponsors() {
+  const siteConfig = useSiteConfig()
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 

@@ -51,11 +51,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const entourageData = {
+    const entourageData: Record<string, string> = {
       Name: Name.trim(),
       RoleCategory: RoleCategory?.trim() || '',
-      RoleTitle: RoleTitle?.trim() || '',
       Email: Email?.trim() || '',
+    }
+    if (RoleTitle?.trim()) {
+      entourageData.RoleTitle = RoleTitle.trim()
     }
 
     const response = await fetch(ENTOURAGE_SCRIPT_URL, {

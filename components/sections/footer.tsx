@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "motion/react"
 import { Instagram, Twitter, Facebook, MapPin, Calendar, Clock, Heart, Music2 } from "lucide-react"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
 
@@ -39,6 +39,7 @@ const toTitleCase = (str: string) => {
 }
 
 export function Footer() {
+  const siteConfig = useSiteConfig()
   const year = new Date().getFullYear()
   const ceremonyDate = siteConfig.ceremony.date
   const ceremonyTime = siteConfig.ceremony.time

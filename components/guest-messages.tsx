@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import {
   MessageSquare,
   Search,
@@ -8,52 +8,30 @@ import {
   RefreshCw,
   Clock,
 } from "lucide-react"
-
-interface Message {
-  timestamp: string
-  name: string
-  message: string
-}
+import { type Message } from "@/app/api/messages/route"
 
 interface GuestMessagesProps {
-  guests?: any[]
+  messages: Message[]
+  onRefresh: () => Promise<void>
+  isLoading?: boolean
 }
 
-export function GuestMessages({ guests = [] }: GuestMessagesProps) {
+export function GuestMessages({ messages, onRefresh, isLoading = false }: GuestMessagesProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [messages, setMessages] = useState<Message[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchMessages = async () => {
-    setIsLoading(true)
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
     setError(null)
     try {
-      const response = await fetch("/api/messages", {
-        cache: "no-store",
-        headers: {
-          "Cache-Control": "no-cache",
-        },
-      })
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch messages")
-      }
-      
-      const data = await response.json()
-      console.log("Messages fetched:", data)
-      setMessages(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error("Error fetching messages:", error)
+      await onRefresh()
+    } catch {
       setError("Failed to load messages")
     } finally {
-      setIsLoading(false)
+      setIsRefreshing(false)
     }
   }
-
-  useEffect(() => {
-    fetchMessages()
-  }, [])
 
   const filteredMessages = messages.filter((msg) => {
     if (!searchQuery.trim()) return true
@@ -64,17 +42,16 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
     )
   })
 
-  // Format timestamp
   const formatTimestamp = (timestamp: string) => {
     if (!timestamp) return "Recently"
     try {
       const date = new Date(timestamp)
-      return date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       })
     } catch {
       return timestamp
@@ -90,24 +67,22 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
             {filteredMessages.length} of {messages.length} messages
           </div>
           <button
-            onClick={fetchMessages}
-            disabled={isLoading}
+            onClick={handleRefresh}
+            disabled={isRefreshing}
             className="p-2 rounded-lg bg-white hover:bg-gray-50 border border-[#E5E7EB] transition-colors disabled:opacity-50"
             title="Refresh messages"
           >
-            <RefreshCw className={`h-4 w-4 text-[#6B7280] ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 text-[#6B7280] ${isRefreshing ? "animate-spin" : ""}`} />
           </button>
         </div>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700">
           {error}
         </div>
       )}
 
-      {/* Info Card */}
       <div className="bg-gradient-to-br from-[#FFF8F0] to-[#F5F5F0] border border-[#E5E7EB] rounded-xl p-6">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-gradient-to-br from-[#8B6F47] to-[#6B5335] rounded-xl flex items-center justify-center flex-shrink-0">
@@ -122,7 +97,6 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
         </div>
       </div>
 
-      {/* Search */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-[#E5E7EB]">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#6B7280]" />
@@ -136,8 +110,7 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
         </div>
       </div>
 
-      {/* Messages */}
-      {isLoading ? (
+      {(isLoading || isRefreshing) && messages.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-[#E5E7EB] p-12 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F9FAFB] rounded-full mb-4">
             <RefreshCw className="h-8 w-8 text-[#6B7280] animate-spin" />
@@ -161,18 +134,17 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
         <div className="grid grid-cols-1 gap-4">
           {filteredMessages.map((msg, index) => (
             <div
-              key={index}
+              key={`${msg.timestamp}-${msg.name}-${index}`}
               className="bg-white rounded-xl shadow-sm border border-[#E5E7EB] p-6 hover:shadow-md transition-all duration-200"
             >
-              {/* Header */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-[#D4B5A0] to-[#8B6F47] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-semibold text-lg">
-                    {msg.name.charAt(0).toUpperCase()}
+                    {msg.name ? msg.name.charAt(0).toUpperCase() : "?"}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-semibold text-[#111827] mb-1">{msg.name}</h3>
+                  <h3 className="text-lg font-semibold text-[#111827] mb-1">{msg.name || "Anonymous"}</h3>
                   {msg.timestamp && (
                     <div className="flex items-center gap-1.5 text-sm text-[#6B7280]">
                       <Clock className="h-4 w-4 flex-shrink-0" />
@@ -182,7 +154,6 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
                 </div>
               </div>
 
-              {/* Message Content */}
               <div className="bg-gradient-to-br from-[#FFF8F0] to-[#F5F5F0] rounded-xl p-4 border border-[#E5E7EB]">
                 <div className="flex gap-3">
                   <div className="flex-shrink-0 mt-1">
@@ -198,7 +169,6 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
         </div>
       )}
 
-      {/* Statistics Footer */}
       {messages.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm border border-[#E5E7EB] p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
@@ -210,7 +180,7 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
             </div>
             <div>
               <div className="text-3xl font-bold text-purple-600 mb-1">
-                {messages.filter(m => m.message && m.message.length > 100).length}
+                {messages.filter((m) => m.message && m.message.length > 100).length}
               </div>
               <div className="text-sm text-[#6B7280]">Long Messages (100+ chars)</div>
             </div>
@@ -220,4 +190,3 @@ export function GuestMessages({ guests = [] }: GuestMessagesProps) {
     </div>
   )
 }
-

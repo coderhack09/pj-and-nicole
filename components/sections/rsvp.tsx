@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { Section } from "@/components/section"
 import { Button } from "@/components/ui/button"
 import { Heart, CheckCircle, AlertCircle, User, Users, MessageSquare } from "lucide-react"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 // import { siteContent } from "@/lib/content"
 
 interface RSVPFormProps {
@@ -12,6 +12,7 @@ interface RSVPFormProps {
 }
 
 export function RSVP({ onSuccess }: RSVPFormProps) {
+  const siteConfig = useSiteConfig()
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)

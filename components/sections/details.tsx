@@ -3,7 +3,7 @@
 import { Section } from "@/components/section"
 import { useState, useEffect } from "react"
 import { QRCodeSVG } from "qrcode.react"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Image from "next/image"
 import { Cinzel, Cormorant_Garamond } from "next/font/google"
 import {
@@ -33,6 +33,7 @@ const cinzel = Cinzel({
 // Colors sourced from globals.css @theme inline — edit there to update everywhere
 
 export function Details() {
+  const siteConfig = useSiteConfig()
   const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set())
   const [currentReceptionImageIndex, setCurrentReceptionImageIndex] = useState(0)
   const [showImageModal, setShowImageModal] = useState<string | null>(null)

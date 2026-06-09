@@ -2,7 +2,8 @@
 
 import type React from "react"
 import { Section } from "@/components/section"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
+import type { SiteConfig } from "@/lib/site-config"
 import { MapPin } from "lucide-react"
 import { motion } from "motion/react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
@@ -17,12 +18,6 @@ const cinzel = Cinzel({
   subsets: ["latin"],
   weight: ["400"],
 })
-
-// const { groomNickname, brideNickname } = siteConfig.couple
-const ceremonyTime = siteConfig.ceremony.time
-const guestsTime = siteConfig.ceremony.guestsTime ?? "1:30 PM"
-const ceremonyVenue = siteConfig.ceremony.location
-const receptionVenue = siteConfig.reception.location
 
 // Colors sourced from globals.css @theme inline — edit there to update everywhere
 // This section sits on a darker background, so render timeline text/icons in white.
@@ -44,7 +39,10 @@ interface TimelineEvent {
   imageSrc?: string
 }
 
-const timelineEvents: TimelineEvent[] = [
+function buildTimelineEvents(siteConfig: SiteConfig): TimelineEvent[] {
+  const receptionVenue = siteConfig.reception.location
+
+  return [
   {
     time: `1:30 PM`,
     title: "Guest Arrival",
@@ -56,7 +54,6 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: `2:00 PM`,
     title: "Wedding Ceremony",
-    // description: `Join us as ${groomNickname} & ${brideNickname} exchange vows and begin their life together.`,
     location: `${siteConfig.ceremony.location}`,
     icon: RingsIcon,
     imageSrc: "/weddingtimeline/WeddingCeremony.png",
@@ -64,7 +61,6 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: `4:00 PM`,
     title: "Post-Nuptial Pictorial",
-    // description: "We are having an unplugged ceremony, meaning we kindly ask all guests to put away their phones and cameras. We want everyone to be fully in the moment with us. Don't worry—our professional photographer will capture all the special moments, and we'll be happy to share them with you later!",
     location: `${siteConfig.ceremony.location}`,
     icon: RingsIcon,
     imageSrc: "/weddingtimeline/PhotoSession.png",
@@ -72,7 +68,6 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: `5:30 PM`,
     title: "Cocktail Hour",
-    // description: "Enjoy drinks and light bites as we transition into the reception and mingle with guests.",
     location: receptionVenue,
     icon: CocktailIcon,
     imageSrc: "/weddingtimeline/CockTailHour.png",
@@ -80,7 +75,6 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: "5:15 PM",
     title: "Reception Program",
-    // description: `Celebrate the grand entrance of ${groomNickname} & ${brideNickname} and the start of the evening festivities.`,
     location: receptionVenue,
     icon: FireworksIcon,
     imageSrc: "/weddingtimeline/reception welcom.png",
@@ -88,7 +82,6 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: "7:30 PM",
     title: "Dinner",
-    // description: "Share a relaxed meal together as we continue the celebration.",
     location: receptionVenue,
     icon: DinnerIcon,
     imageSrc: "/weddingtimeline/DinnerService.png",
@@ -96,14 +89,16 @@ const timelineEvents: TimelineEvent[] = [
   {
     time: "9:00 PM",
     title: "Party",
-    // description: "Let's dance the night away and celebrate this new chapter!",
     location: receptionVenue,
     icon: DanceIcon,
     imageSrc: "/weddingtimeline/SendOff.png",
   },
 ]
+}
 
 export function WeddingTimeline() {
+  const siteConfig = useSiteConfig()
+  const timelineEvents = buildTimelineEvents(siteConfig)
   return (
     <Section
       id="wedding-timeline"

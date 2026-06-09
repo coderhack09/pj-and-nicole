@@ -2,9 +2,10 @@
 
 import { useEffect } from "react"
 import { useAudio } from "@/contexts/audio-context"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 
 const BackgroundMusic = () => {
+  const siteConfig = useSiteConfig()
   const { audioRef } = useAudio()
 
   useEffect(() => {

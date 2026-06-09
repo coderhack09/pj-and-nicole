@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { useMemo, useState, type ReactNode } from "react"
+import type { SiteConfig } from "@/lib/site-config"
 import { ChevronDown } from "lucide-react"
 import { Section } from "@/components/section"
 import Image from "next/image"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { CloudinaryImage } from "../ui/cloudinary-image"
 
 const cormorant = Cormorant_Garamond({
@@ -32,7 +33,8 @@ interface FAQItem {
   answer: string | ReactNode
 }
 
-const faqItems: FAQItem[] = [
+function getFaqItems(siteConfig: SiteConfig): FAQItem[] {
+  return [
   {
     question: "When is the wedding?",
     answer:
@@ -154,8 +156,11 @@ const faqItems: FAQItem[] = [
       "• Pray with us for favorable weather and the continuous blessings of our Lord as we enter this new chapter of our lives as husband and wife.\n\n• RSVP as soon as your schedule is cleared.\n\n• Dress appropriately and follow our wedding motif.\n\n• Be on time.\n\n• Follow the seating arrangement in the reception.\n\n• Stay until the end of the program.\n\n• Join the activities and enjoy!",
   },
 ]
+}
 
 export function FAQ() {
+  const siteConfig = useSiteConfig()
+  const faqItems = useMemo(() => getFaqItems(siteConfig), [siteConfig])
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const toggleItem = (index: number) => {

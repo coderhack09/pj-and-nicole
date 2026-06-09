@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { motion } from "motion/react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Image from "next/image"
 
 const desktopBackgroundSrcs: readonly string[] = [
@@ -38,6 +38,7 @@ const cinzelRegular = Cinzel({
 })
 
 export function Hero() {
+  const siteConfig = useSiteConfig()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react"
 import Link from "next/link"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
 import StaggeredMenu from "./StaggeredMenu"
 import { Cormorant_Garamond } from "next/font/google"
@@ -30,6 +30,7 @@ const navLinks = [
 ]
 
 export function Navbar() {
+  const siteConfig = useSiteConfig()
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("#home")
 

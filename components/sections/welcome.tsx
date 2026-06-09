@@ -1,7 +1,7 @@
 "use client"
 
 import { Section } from "@/components/section"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
 
@@ -23,6 +23,7 @@ const cinzel = Cinzel({
 const DECO_FILTER = "brightness(0) invert(1)"
 
 export function Welcome() {
+  const siteConfig = useSiteConfig()
   const brideName = siteConfig.couple.brideNickname || siteConfig.couple.bride
   const groomName = siteConfig.couple.groomNickname || siteConfig.couple.groom
   return (

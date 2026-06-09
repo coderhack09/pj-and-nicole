@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { siteConfig } from '@/content/site';
+import { useSiteConfig } from '@/hooks/use-site-config';
 import Image from 'next/image';
 
 
@@ -23,6 +23,7 @@ const BOX_TRANSITION_MS = 1200; // Slow, smooth transition
 const TOTAL_DURATION_MS = COUNTDOWN_BOXES.length * STAGGER_DELAY_MS + 3000;
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
+  const siteConfig = useSiteConfig();
   const [fadeOut, setFadeOut] = useState(false);
   const [progress, setProgress] = useState(0);
   const [visibleBoxes, setVisibleBoxes] = useState<number[]>([]);

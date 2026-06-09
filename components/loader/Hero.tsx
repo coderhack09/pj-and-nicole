@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect, useMemo, useState } from 'react';
-import { siteConfig } from '@/content/site';
+import { useSiteConfig } from '@/hooks/use-site-config';
 import Image from 'next/image';
 
 interface HeroProps {
@@ -55,6 +57,7 @@ const mobileImages: string[] = [
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onOpen, visible }) => {
+  const siteConfig = useSiteConfig();
   const [index, setIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);

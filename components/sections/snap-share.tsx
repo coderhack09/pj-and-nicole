@@ -5,7 +5,7 @@ import { motion } from "motion/react"
 import { Instagram, Facebook, Twitter, Share2, Copy, Download, Check } from "lucide-react"
 import { Section } from "@/components/section"
 import { QRCodeCanvas } from "qrcode.react"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import Image from "next/image"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 
@@ -24,6 +24,7 @@ const cinzel = Cinzel({
 const MOTIF_DEEP_HEX = "#3E2914"
 
 export function SnapShare() {
+  const siteConfig = useSiteConfig()
   const [copiedHashtagIndex, setCopiedHashtagIndex] = useState<number | null>(null)
   const [copiedAllHashtags, setCopiedAllHashtags] = useState(false)
   const [copiedDriveLink, setCopiedDriveLink] = useState(false)

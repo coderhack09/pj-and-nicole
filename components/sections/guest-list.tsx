@@ -19,7 +19,7 @@ import {
   Users,
 } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -61,6 +61,7 @@ interface Guest {
 }
 
 export function GuestList() {
+  const siteConfig = useSiteConfig()
   const [guests, setGuests] = useState<Guest[]>([])
   const [filteredGuests, setFilteredGuests] = useState<Guest[]>([])
   const [searchQuery, setSearchQuery] = useState("")

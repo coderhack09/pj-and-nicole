@@ -1,7 +1,7 @@
 "use client"
 
 import { Section } from "@/components/section"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { Car, Navigation, MapPin } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
@@ -33,6 +33,7 @@ const GUEST_ATTIRE_PALETTE = [
 ]
 
 export function GuestInformation() {
+  const siteConfig = useSiteConfig()
 
   return (
     <Section

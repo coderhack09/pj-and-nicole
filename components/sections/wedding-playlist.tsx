@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { Section } from "@/components/section"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { useAudio } from "@/contexts/audio-context"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
@@ -91,10 +91,10 @@ const cinzel = Cinzel({
   weight: "400",
 })
 
-const { title, subtitle, playlistName, spotifyUrl } = siteConfig.playlist
-const spotifyUri = getSpotifyUri(spotifyUrl)
-
 export function WeddingPlaylist() {
+  const siteConfig = useSiteConfig()
+  const { title, subtitle, playlistName, spotifyUrl } = siteConfig.playlist
+  const spotifyUri = getSpotifyUri(spotifyUrl)
   const embedContainerRef = useRef<HTMLDivElement>(null)
   const controllerRef = useRef<SpotifyEmbedController | null>(null)
   const playbackStateRef = useRef<"playing" | "paused">("paused")
@@ -156,7 +156,7 @@ export function WeddingPlaylist() {
       controllerRef.current?.destroy()
       controllerRef.current = null
     }
-  }, [pauseMusic, resumeMusic])
+  }, [pauseMusic, resumeMusic, spotifyUri])
 
   return (
     <Section

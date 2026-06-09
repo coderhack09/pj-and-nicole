@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import MessageWallDisplay from "./message-wall-display"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import { siteConfig } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -39,6 +39,7 @@ interface MessageFormProps {
 }
 
 function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
+  const siteConfig = useSiteConfig()
   const { brideNickname, groomNickname } = siteConfig.couple
   const coupleDisplayName = `${groomNickname} & ${brideNickname}`
 
@@ -282,6 +283,7 @@ function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
 }
 
 export function Messages() {
+  const siteConfig = useSiteConfig()
   const { brideNickname, groomNickname } = siteConfig.couple
   const coupleDisplayName = `${groomNickname} & ${brideNickname}`
 

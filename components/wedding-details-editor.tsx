@@ -147,56 +147,55 @@ export function WeddingDetailsEditor() {
       if (data.error) {
         throw new Error(data.error)
       }
-      
-      // Use the data as-is without merging with defaults
-      // Ensure all nested objects exist with empty strings
+
+      const raw = (data.weddingDetails ?? data) as typeof data
       const cleanData: WeddingDetails = {
         couple: {
-          bride: data.couple?.bride || "",
-          brideNickname: data.couple?.brideNickname || "",
-          groom: data.couple?.groom || "",
-          groomNickname: data.couple?.groomNickname || "",
+          bride: raw.couple?.bride || "",
+          brideNickname: raw.couple?.brideNickname || "",
+          groom: raw.couple?.groom || "",
+          groomNickname: raw.couple?.groomNickname || "",
         },
         wedding: {
-          date: data.wedding?.date || "",
-          venue: data.wedding?.venue || "",
-          tagline: data.wedding?.tagline || "",
+          date: raw.wedding?.date || "",
+          venue: raw.wedding?.venue || "",
+          tagline: raw.wedding?.tagline || "",
         },
-        theme: data.theme || "",
-        hashtag: data.hashtag || "",
+        theme: raw.theme || "",
+        hashtag: raw.hashtag || "",
         ceremony: {
-          venue: data.ceremony?.venue || "",
-          address: data.ceremony?.address || "",
-          time: data.ceremony?.time || "",
-          googleMapsUrl: data.ceremony?.googleMapsUrl || "",
+          venue: raw.ceremony?.venue || "",
+          address: raw.ceremony?.address || "",
+          time: raw.ceremony?.time || "",
+          googleMapsUrl: raw.ceremony?.googleMapsUrl || "",
         },
         reception: {
-          venue: data.reception?.venue || "",
-          address: data.reception?.address || "",
-          time: data.reception?.time || "",
-          googleMapsUrl: data.reception?.googleMapsUrl || "",
+          venue: raw.reception?.venue || "",
+          address: raw.reception?.address || "",
+          time: raw.reception?.time || "",
+          googleMapsUrl: raw.reception?.googleMapsUrl || "",
         },
         narratives: {
-          bride: data.narratives?.bride || "",
-          groom: data.narratives?.groom || "",
-          shared: data.narratives?.shared || "",
+          bride: raw.narratives?.bride || "",
+          groom: raw.narratives?.groom || "",
+          shared: raw.narratives?.shared || "",
         },
         dressCode: {
-          theme: data.dressCode?.theme || "",
-          note: data.dressCode?.note || "",
+          theme: raw.dressCode?.theme || "",
+          note: raw.dressCode?.note || "",
         },
         details: {
           rsvp: {
-            deadline: data.details?.rsvp?.deadline || "",
+            deadline: raw.details?.rsvp?.deadline || "",
           },
         },
         contact: {
-          bridePhone: data.contact?.bridePhone || "",
-          groomPhone: data.contact?.groomPhone || "",
-          email: data.contact?.email || "",
+          bridePhone: raw.contact?.bridePhone || "",
+          groomPhone: raw.contact?.groomPhone || "",
+          email: raw.contact?.email || "",
         },
       }
-      
+
       setWeddingDetails(cleanData)
       setHasChanges(false)
     } catch (err: any) {

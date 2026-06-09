@@ -2,7 +2,8 @@
 
 import React from "react"
 import { useState, useEffect, useMemo, useRef } from "react"
-import { siteConfig, entourage as staticEntourage, principalSponsors as staticSponsors } from "@/content/site"
+import { entourage as staticEntourage, principalSponsors as staticSponsors } from "@/content/site"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { Loader2, Users } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
@@ -138,6 +139,7 @@ function toTitleCaseDisplayName(name: string): string {
 }
 
 export function Entourage() {
+  const siteConfig = useSiteConfig()
   const [entourage, setEntourage] = useState<EntourageMember[]>([])
   const [sponsors, setSponsors] = useState<PrincipalSponsor[]>([])
   const [isLoading, setIsLoading] = useState(true)
