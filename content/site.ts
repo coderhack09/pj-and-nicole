@@ -1,3 +1,8 @@
+import {
+  proposalRoleDefinitions,
+  proposalRoleIdAliases,
+} from "@/content/proposal-roles"
+
 export const siteConfig = {
   couple: {
     bride: "Teri Nicole A. Guillermo", //Noenyl Bryle M. Gonzaga
@@ -26,6 +31,12 @@ export const siteConfig = {
     tagline: "are getting married!",
     theme: "Our wedding palette is inspired by timeless elegance and warmth.Motif Colors: Champagne Gold, Soft Beige, Warm Soft Brown",
     motif: "#BBCED5, #B9C3A8, #F3D8C5, #D1C4D4, #ECD8BA, #F4E8D8, #E1DCCF",
+  },
+  proposal: {
+    // Use "Maid of Honor" for unmarried, "Matron of Honor" for married
+    honorAttendant: "Matron of Honor" as "Matron of Honor" | "Maid of Honor",
+    roles: proposalRoleDefinitions,
+    roleIdAliases: proposalRoleIdAliases,
   },
   details: {
     rsvp: {

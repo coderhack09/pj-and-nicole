@@ -15,7 +15,13 @@ import {
   Users,
 } from "lucide-react"
 import { useSiteConfig } from "@/hooks/use-site-config"
-import { PROPOSAL_ROLES, getRoleSingular } from "@/lib/proposal-roles"
+import {
+  PROPOSAL_ROLES,
+  PROPOSAL_ENTOURAGE_ROLE_SLOTS,
+  PROPOSAL_SPONSOR_ROLE_SLOTS,
+  countFilledNamesByProposalRoles,
+  getRoleSingular,
+} from "@/lib/proposal-roles"
 import {
   Dialog,
   DialogContent,
@@ -37,33 +43,6 @@ interface EntourageRow {
 interface PrincipalSponsorRow {
   MalePrincipalSponsor?: string
   FemalePrincipalSponsor?: string
-}
-
-function countFilledProposalRoles(
-  entourageRows: EntourageRow[],
-  sponsorRows: PrincipalSponsorRow[]
-) {
-  const filledEntourage = PROPOSAL_ROLES.filter((role) => {
-    if (role.category !== "Entourage") return false
-    return entourageRows.some(
-      (row) =>
-        (row.Name ?? "").trim() &&
-        (row.RoleCategory ?? "").trim().toLowerCase() ===
-          role.roleCategory.toLowerCase()
-    )
-  }).length
-
-  const hasNinong = sponsorRows.some((row) =>
-    (row.MalePrincipalSponsor ?? "").trim()
-  )
-  const hasNinang = sponsorRows.some((row) =>
-    (row.FemalePrincipalSponsor ?? "").trim()
-  )
-
-  return {
-    filledEntourage,
-    filledSponsors: (hasNinong ? 1 : 0) + (hasNinang ? 1 : 0),
-  }
 }
 
 export function ProposalDashboard() {
@@ -174,10 +153,8 @@ export function ProposalDashboard() {
     })
   }, [categoryTab, searchQuery])
 
-  const entourageRoleSlots = PROPOSAL_ROLES.filter((r) => r.category === "Entourage").length
-  const sponsorRoleSlots = PROPOSAL_ROLES.filter((r) => r.category === "Principal Sponsor").length
   const { filledEntourage: filledEntourageCount, filledSponsors: filledSponsorCount } =
-    countFilledProposalRoles(entourageRows, sponsorRows)
+    countFilledNamesByProposalRoles(entourageRows, sponsorRows)
 
   return (
     <div className="space-y-6">
@@ -213,7 +190,7 @@ export function ProposalDashboard() {
               <strong className="text-[#6B4423]">
                 {isCountsLoading ? "…" : filledEntourageCount}
               </strong>{" "}
-              / {entourageRoleSlots} entourage filled
+              names · {PROPOSAL_ENTOURAGE_ROLE_SLOTS} entourage roles
             </span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs text-[#6B7280]">
@@ -222,7 +199,7 @@ export function ProposalDashboard() {
               <strong className="text-[#6B4423]">
                 {isCountsLoading ? "…" : filledSponsorCount}
               </strong>{" "}
-              / {sponsorRoleSlots} sponsors filled
+              names · {PROPOSAL_SPONSOR_ROLE_SLOTS} sponsor roles
             </span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-3 py-1.5 text-xs text-[#6B7280]">

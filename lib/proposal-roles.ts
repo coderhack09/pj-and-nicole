@@ -1,129 +1,134 @@
-import type { ProposalRole } from "@/lib/proposal-types"
+import { siteConfig } from "@/content/site"
+import type {
+  HonorAttendantTitle,
+  ProposalRole,
+  ProposalRoleDefinition,
+} from "@/lib/proposal-types"
 
-export const PROPOSAL_ROLES: ProposalRole[] = [
-  {
-    id: "best-man",
-    title: "Best Man",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Best Man",
-    description:
-      "To stand beside the groom on one of the most important days of his life — offering counsel, steady support, and a trusted presence from preparation through celebration, and helping keep every moment joyful and meaningful.",
-  },
-  {
-    id: "matron-of-honor",
-    title: "Matron of Honor",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Matron of Honor",
-    description:
-      "To stand beside the bride with love and grace — lending a steady hand through every step of the day, sharing in her joy and excitement, and helping make each moment leading up to and on our wedding day truly unforgettable.",
-  },
-  {
-    id: "bridesmaid",
-    title: "Bridesmaid",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Bridesmaids",
-    description:
-      "To walk alongside the bride with warmth and encouragement — sharing in her joy, lifting her spirits, and standing with her through this beautiful chapter as she prepares to begin a new life filled with love.",
-  },
-  {
-    id: "groomsman",
-    title: "Groomsman",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Groomsmen",
-    description:
-      "To stand with the groom as he begins this new chapter — celebrating his happiness, offering your friendship and support, and helping ensure the day unfolds smoothly so every memory we make together is one to cherish.",
-  },
-  {
-    id: "flower-girl",
-    title: "Flower Girl",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Flower Girls",
-    description:
-      "To scatter petals down the aisle with delight and wonder — bringing sweetness, innocence, and a touch of magic to the ceremony that will make our walk toward forever even more beautiful.",
-  },
-  {
-    id: "ring-bearer",
-    title: "Ring Bearer",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Ring Bearer",
-    description:
-      "To carry the rings with care and present them at the altar — holding symbols of our promise with pride and tenderness, and playing a cherished part in the moment we exchange our vows.",
-  },
-  {
-    id: "coin-bearer",
-    title: "Coin Bearer",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Coin Bearer",
-    description:
-      "To carry the arrhae with reverence during our wedding ceremony — honoring this beautiful Filipino tradition and representing the blessings, prosperity, and shared future we gratefully begin together.",
-  },
-  {
-    id: "little-bride",
-    title: "Little Bride",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Little Bride",
-    description:
-      "To walk gracefully down the aisle and add a touch of innocence and charm — bringing light and joy to our ceremony and making the beginning of our forever feel even more special.",
-  },
-  {
-    id: "candle-sponsor",
-    title: "Candle Sponsor",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Candle Sponsors",
-    description:
-      "To light the candles that symbolize the union of two families — a sacred gesture of love, faith, and the joining of our lives, witnessed with honor and heartfelt blessing.",
-  },
-  {
-    id: "veil-sponsor",
-    title: "Veil Sponsor",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Veil Sponsors",
-    description:
-      "To place the veil over us as a symbol of unity and protection — covering us with love and grace, and blessing our marriage with the warmth of your presence and prayers.",
-  },
-  {
-    id: "cord-sponsor",
-    title: "Cord Sponsor",
-    category: "Entourage",
-    type: "entourage",
-    roleCategory: "Cord Sponsors",
-    description:
-      "To bind the cord around us, signifying our lifelong bond — a beautiful act of faith that ties our hearts together and blesses the commitment we make before God and those we love.",
-  },
-  {
-    id: "principal-sponsor-ninong",
-    title: "Ninong",
-    category: "Principal Sponsor",
-    type: "sponsor-ninong",
-    roleCategory: "Principal Sponsors",
-    description:
-      "To serve as our Ninong and principal sponsor — a spiritual guide and second father whose wisdom, prayers, and steady support will help light our path as husband and wife through every season of married life.",
-  },
-  {
-    id: "principal-sponsor-ninang",
-    title: "Ninang",
-    category: "Principal Sponsor",
-    type: "sponsor-ninang",
-    roleCategory: "Principal Sponsors",
-    description:
-      "To serve as our Ninang and principal sponsor — a spiritual guide and second mother whose love, counsel, and prayers will surround our marriage with grace, strength, and enduring blessing.",
-  },
+export const HONOR_ATTENDANT_CATEGORIES: HonorAttendantTitle[] = [
+  "Matron of Honor",
+  "Maid of Honor",
 ]
 
+const DEFAULT_HONOR_ATTENDANT_DESCRIPTIONS: Record<HonorAttendantTitle, string> = {
+  "Matron of Honor":
+    "To stand beside the bride with love and grace — lending a steady hand through every step of the day, sharing in her joy and excitement, and helping make each moment leading up to and on our wedding day truly unforgettable.",
+  "Maid of Honor":
+    "To stand beside the bride with love and loyalty — lending a steady hand through every step of the day, sharing in her joy and excitement, and helping make each moment leading up to and on our wedding day truly unforgettable.",
+}
+
+function getProposalConfig() {
+  return siteConfig.proposal
+}
+
+export function getHonorAttendantTitle(): HonorAttendantTitle {
+  return getProposalConfig()?.honorAttendant ?? "Matron of Honor"
+}
+
+export const PROPOSAL_ROLE_ID_ALIASES: Record<string, string> =
+  getProposalConfig()?.roleIdAliases ?? {}
+
+function resolveHonorAttendantRole(definition: ProposalRoleDefinition): ProposalRole {
+  const title = getHonorAttendantTitle()
+  const descriptions = {
+    ...DEFAULT_HONOR_ATTENDANT_DESCRIPTIONS,
+    ...definition.descriptions,
+  }
+
+  return {
+    id: definition.id,
+    title,
+    category: definition.category,
+    type: definition.type,
+    roleCategory: title,
+    roleCategoryAliases: HONOR_ATTENDANT_CATEGORIES.filter((category) => category !== title),
+    description: descriptions[title],
+  }
+}
+
+function resolveRoleDefinition(definition: ProposalRoleDefinition): ProposalRole {
+  if (definition.variant === "honorAttendant") {
+    return resolveHonorAttendantRole(definition)
+  }
+
+  if (!definition.title || !definition.roleCategory || !definition.description) {
+    throw new Error(
+      `Proposal role "${definition.id}" is missing title, roleCategory, or description.`
+    )
+  }
+
+  return {
+    id: definition.id,
+    title: definition.title,
+    category: definition.category,
+    type: definition.type,
+    roleCategory: definition.roleCategory,
+    roleCategoryAliases: definition.roleCategoryAliases,
+    description: definition.description,
+  }
+}
+
+function buildProposalRoles(): ProposalRole[] {
+  const definitions = getProposalConfig()?.roles ?? []
+  return definitions.map(resolveRoleDefinition)
+}
+
+export const PROPOSAL_ROLES: ProposalRole[] = buildProposalRoles()
+
+function getRoleSheetCategories(role: ProposalRole): string[] {
+  return [role.roleCategory, ...(role.roleCategoryAliases ?? [])].map((category) =>
+    category.trim().toLowerCase()
+  )
+}
+
 export function getProposalRoleById(roleId: string): ProposalRole | undefined {
-  return PROPOSAL_ROLES.find((role) => role.id === roleId)
+  const resolvedId = PROPOSAL_ROLE_ID_ALIASES[roleId] ?? roleId
+  return PROPOSAL_ROLES.find((role) => role.id === resolvedId)
 }
 
 export function getRoleSingular(title: string): string {
   return title.endsWith("s") ? title.slice(0, -1) : title
 }
+
+function getProposalRoleCategories(category: ProposalRole["category"]): Set<string> {
+  const categories = new Set<string>()
+
+  for (const role of PROPOSAL_ROLES) {
+    if (role.category !== category) continue
+    for (const sheetCategory of getRoleSheetCategories(role)) {
+      categories.add(sheetCategory)
+    }
+  }
+
+  return categories
+}
+
+export function countFilledNamesByProposalRoles(
+  entourageRows: Array<{ Name?: string; RoleCategory?: string }>,
+  sponsorRows: Array<{ MalePrincipalSponsor?: string; FemalePrincipalSponsor?: string }>
+) {
+  const entourageCategories = getProposalRoleCategories("Entourage")
+
+  const filledEntourage = entourageRows.filter((row) => {
+    const name = (row.Name ?? "").trim()
+    const category = (row.RoleCategory ?? "").trim().toLowerCase()
+    return name && entourageCategories.has(category)
+  }).length
+
+  const filledSponsors = sponsorRows.reduce((total, row) => {
+    let count = 0
+    if ((row.MalePrincipalSponsor ?? "").trim()) count += 1
+    if ((row.FemalePrincipalSponsor ?? "").trim()) count += 1
+    return total + count
+  }, 0)
+
+  return { filledEntourage, filledSponsors }
+}
+
+export const PROPOSAL_ENTOURAGE_ROLE_SLOTS = PROPOSAL_ROLES.filter(
+  (role) => role.category === "Entourage"
+).length
+
+export const PROPOSAL_SPONSOR_ROLE_SLOTS = PROPOSAL_ROLES.filter(
+  (role) => role.category === "Principal Sponsor"
+).length
