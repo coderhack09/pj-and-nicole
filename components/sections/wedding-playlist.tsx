@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react"
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import { useAudio } from "@/contexts/audio-context"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import Image from "next/image"
 import { Music2, ExternalLink } from "lucide-react"
 
 interface SpotifyPlaybackUpdate {
@@ -163,27 +163,7 @@ export function WeddingPlaylist() {
       id="playlist"
       className="relative overflow-hidden bg-transparent py-12 sm:py-16 md:py-20"
     >
-      {/* Corner floral decoration */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px] opacity-50 scale-y-[-1]"
-          priority={false}
-        />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px] opacity-50 scale-x-[-1]"
-          priority={false}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-motif-accent/30 bg-motif-cream shadow-[0_16px_60px_rgba(91,102,85,0.12)] px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-10 md:py-12">

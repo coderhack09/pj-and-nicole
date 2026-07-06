@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Heart, RefreshCw, TrendingUp, Mail, Users, MapPin, Calendar, Crown } from "lucide-react"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
 
@@ -190,51 +191,7 @@ export function BookOfGuests() {
         style={{ backgroundColor: 'var(--color-motif-cream)' }}
       />
 
-      {/* Flower decoration — warm brown tint */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-y-[-1]"
-          priority={false}
-          // style={{ filter: DECO_FILTER_BOOK }}
-        />
-      </div>
-      <div className="absolute right-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-x-[-1] scale-y-[-1]"
-          priority={false}
-          // style={{ filter: DECO_FILTER_BOOK }}
-        />
-      </div>
-      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70"
-          priority={false}
-          // style={{ filter: DECO_FILTER_BOOK }}
-        />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-x-[-1]"
-          priority={false}
-          // style={{ filter: DECO_FILTER_BOOK }}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       {/* Section Header */}
       <div className="relative z-10 text-center mb-3 sm:mb-4 md:mb-6 px-2 sm:px-3 md:px-4">

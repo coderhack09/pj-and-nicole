@@ -7,6 +7,7 @@ import { useSiteConfig } from "@/hooks/use-site-config"
 import { Loader2, Users } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -385,45 +386,7 @@ export function Entourage() {
         id="entourage"
         className="relative z-10 py-8 md:py-10 lg:py-12 overflow-hidden"
       >
-      {/* Corner floral decoration - softly tinted */}
-      <div className="absolute inset-0 pointer-events-none z-[1]">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute top-0 left-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-20"
-          style={{ transform: "scaleY(-1)", filter: "brightness(0) saturate(100%) invert(39%) sepia(18%) saturate(486%) hue-rotate(62deg) brightness(94%) contrast(88%)" }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute top-0 right-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-20"
-          style={{ transform: "scaleX(-1) scaleY(-1)", filter: "brightness(0) saturate(100%) invert(39%) sepia(18%) saturate(486%) hue-rotate(62deg) brightness(94%) contrast(88%)" }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute bottom-0 left-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-20"
-          style={{ filter: "brightness(0) saturate(100%) invert(39%) sepia(18%) saturate(486%) hue-rotate(62deg) brightness(94%) contrast(88%)" }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute bottom-0 right-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-20"
-          style={{ transform: "scaleX(-1)", filter: "brightness(0) saturate(100%) invert(39%) sepia(18%) saturate(486%) hue-rotate(62deg) brightness(94%) contrast(88%)" }}
-          priority={false}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       {/* Section Header */}
       <div className={`relative z-30 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}>

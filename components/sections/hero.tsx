@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from "react"
 import { motion } from "motion/react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import Image from "next/image"
 
 const desktopBackgroundSrcs: readonly string[] = [
@@ -142,6 +143,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0" />
         <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-black/50 to-transparent z-0" />
       </div>
+
+      <GoldenCornerSparkles />
 
       {SHOW_BUTTERFLIES && (
         <>

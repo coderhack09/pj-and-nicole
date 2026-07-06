@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import type { SiteConfig } from "@/lib/site-config"
 import { MapPin } from "lucide-react"
@@ -24,8 +25,6 @@ const cinzel = Cinzel({
 const TIMELINE_TEXT = "var(--color-motif-cream)"
 // SVG stroke — CSS vars are not valid SVG attributes
 const TIMELINE_SVG_STROKE = "#FFFFFF"
-// White tint for corner florals — section sits on dark background
-const DECO_FILTER_WHITE = "brightness(0) saturate(100%) invert(1)"
 
 type TimelineIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
@@ -104,45 +103,7 @@ export function WeddingTimeline() {
       id="wedding-timeline"
       className="relative py-10 sm:py-12 md:py-16 lg:py-20 overflow-hidden"
     >
-      {/* Corner floral decoration - white */}
-      <div className="absolute inset-0 pointer-events-none z-[1]">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute top-0 left-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-25"
-          style={{ transform: "scaleY(-1)", filter: DECO_FILTER_WHITE }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute top-0 right-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-25"
-          style={{ transform: "scaleX(-1) scaleY(-1)", filter: DECO_FILTER_WHITE }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute bottom-0 left-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-25"
-          style={{ filter: DECO_FILTER_WHITE }}
-          priority={false}
-        />
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="absolute bottom-0 right-0 w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] opacity-25"
-          style={{ transform: "scaleX(-1)", filter: DECO_FILTER_WHITE }}
-          priority={false}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       {/* Header */}
       <div className="relative z-10 text-center mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4">

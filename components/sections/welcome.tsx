@@ -1,9 +1,9 @@
 "use client"
 
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import Image from "next/image"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -15,13 +15,6 @@ const cinzel = Cinzel({
   weight: "400",
 })
 
-
-// Palette lives in globals.css → @theme inline → --color-motif-*
-// Edit there once to update every component.
-
-// Corner decoration - white
-const DECO_FILTER = "brightness(0) invert(1)"
-
 export function Welcome() {
   const siteConfig = useSiteConfig()
   const brideName = siteConfig.couple.brideNickname || siteConfig.couple.bride
@@ -31,47 +24,7 @@ export function Welcome() {
       id="welcome"
       className="relative overflow-hidden bg-transparent py-12 sm:py-16 md:py-20"
     >
-      {/* Corner floral decoration - same as countdown section */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-60 scale-y-[-1]"
-          priority={false}
-        />
-      </div>
-      <div className="absolute right-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-60 scale-x-[-1] scale-y-[-1]"
-          priority={false}
-        />
-      </div>
-      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-60"
-          priority={false}
-        />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-60 scale-x-[-1]"
-          priority={false}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-motif-accent/30 bg-motif-cream shadow-[0_16px_60px_rgba(91,102,85,0.12)] px-4 sm:px-5 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
@@ -192,5 +145,3 @@ export function Welcome() {
     </Section>
   )
 }
-
-

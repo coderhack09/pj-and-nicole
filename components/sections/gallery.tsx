@@ -6,14 +6,10 @@ import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 // Removed circular gallery in favor of a responsive masonry layout
 
 // Palette lives in globals.css → @theme inline → --color-motif-*
-// Edit there once to update every component.
-
-// CSS filter approximation of --color-motif-deep (sage green). Tune if needed.
-const GALLERY_DECO_FILTER = ""
-  // "brightness(0) saturate(100%) invert(37%) sepia(20%) saturate(500%) hue-rotate(80deg) brightness(88%) contrast(92%)"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -137,45 +133,7 @@ export function Gallery() {
         id="gallery"
         className="relative z-10 py-16 sm:py-20 md:py-24 lg:py-28 overflow-hidden"
       >
-      {/* Corner floral decoration - aligned with Details section */}
-      <div className="absolute inset-0 pointer-events-none z-[1]">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
-          className="absolute top-0 left-0 w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px]"
-          style={{ transform: "scaleY(-1)", filter: GALLERY_DECO_FILTER }}
-        />
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
-          className="absolute top-0 right-0 w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px]"
-          style={{ transform: "scaleX(-1) scaleY(-1)", filter: GALLERY_DECO_FILTER }}
-        />
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
-          className="absolute bottom-0 left-0 w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px]"
-          style={{ filter: GALLERY_DECO_FILTER }}
-        />
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
-          className="absolute bottom-0 right-0 w-auto h-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px]"
-          style={{ transform: "scaleX(-1)", filter: GALLERY_DECO_FILTER }}
-        />
-      </div>
+      <GoldenCornerSparkles className="z-0" />
 
       {/* Header — wedding palette & copy */}
       <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">

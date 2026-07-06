@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { Button } from "@/components/ui/button"
 import { Heart, CheckCircle, AlertCircle, User, Users, MessageSquare } from "lucide-react"
 import { useSiteConfig } from "@/hooks/use-site-config"
@@ -59,6 +60,7 @@ export function RSVP({ onSuccess }: RSVPFormProps) {
 
   return (
     <Section id="rsvp" className="relative py-24 md:py-36 overflow-hidden">
+      <GoldenCornerSparkles className="z-0" />
       {/* Decorative background elements (transparent section) */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-10 w-24 h-24 bg-[#BB8A3D]/10 rounded-full blur-2xl animate-pulse" />
@@ -67,35 +69,6 @@ export function RSVP({ onSuccess }: RSVPFormProps) {
         <div className="absolute bottom-10 right-10 w-16 h-16 bg-[#CDAC77]/12 rounded-full blur-lg animate-pulse" />
         <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#BB8A3D]/30 to-transparent" />
         <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#CDAC77]/25 to-transparent" />
-        {/* Corner flowers (same asset, oriented per corner) */}
-        {/* Top-right (base) */}
-        <img
-          src="/decoration/corner_right-top.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute top-0 right-0 w-40 sm:w-56 md:w-64 lg:w-72 opacity-80 select-none"
-        />
-        {/* Top-left (mirror horizontally) */}
-        <img
-          src="/decoration/corner_right-top.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute top-0 left-0 w-40 sm:w-56 md:w-64 lg:w-72 opacity-80 select-none transform scale-x-[-1]"
-        />
-        {/* Bottom-left (rotate 180) */}
-        <img
-          src="/decoration/corner_right-top.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute bottom-0 left-0 w-40 sm:w-56 md:w-64 lg:w-72 opacity-80 select-none rotate-180"
-        />
-        {/* Bottom-right (rotate 180 + mirror) */}
-        <img
-          src="/decoration/corner_right-top.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute bottom-0 right-0 w-40 sm:w-56 md:w-64 lg:w-72 opacity-80 select-none transform rotate-180 scale-x-[-1]"
-        />
       </div>
 
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

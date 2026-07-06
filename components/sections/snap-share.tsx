@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { motion } from "motion/react"
 import { Instagram, Facebook, Twitter, Share2, Copy, Download, Check } from "lucide-react"
 import { Section } from "@/components/section"
+import { GoldenCornerSparkles } from "@/components/decoration/golden-corner-sparkles"
 import { QRCodeCanvas } from "qrcode.react"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import Image from "next/image"
@@ -140,80 +141,7 @@ export function SnapShare() {
       id="snap-share"
       className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24"
     >
-      {/* Background — align with gallery/details */}
-      {/* <div className="absolute inset-0 -z-10">
-        <div
-          className="absolute inset-0 opacity-[0.24]"
-          style={{
-            background: "linear-gradient(145deg, var(--color-motif-cream) 0%, var(--color-motif-deep) 24%, var(--color-motif-medium) 70%, var(--color-motif-deep) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.16]"
-          style={{
-            background: "radial-gradient(circle at 50% 10%, var(--color-motif-deep) 0%, transparent 55%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(135deg, var(--color-motif-cream) 0, var(--color-motif-cream) 26px, var(--color-motif-medium) 27px, var(--color-motif-medium) 28px)",
-          }}
-        />
-      </div> */}
-      
-      {/* Flower decoration - top left corner */}
-      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt="Flower decoration"
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-65 scale-y-[-1]"
-          priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
-        />
-      </div> */}
-      
-      {/* Flower decoration - top right corner */}
-      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt="Flower decoration"
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-65 scale-x-[-1] scale-y-[-1]"
-          priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
-        />
-      </div> */}
-      
-      {/* Flower decoration - left bottom corner */}
-      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt="Flower decoration"
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-65"
-          priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
-        />
-      </div> */}
-      
-      {/* Flower decoration - right bottom corner */}
-      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt="Flower decoration"
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-65 scale-x-[-1]"
-          priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
-        />
-      </div> */}
+      <GoldenCornerSparkles className="z-0" />
 
       <div className="relative max-w-6xl mx-auto px-3 sm:px-6 md:px-8">
         <motion.div
